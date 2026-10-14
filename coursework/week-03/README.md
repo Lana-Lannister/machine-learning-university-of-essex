@@ -4,4 +4,13 @@ Place this week's raw artifacts here: Jupyter notebooks (`.ipynb`), datasets, sc
 
 These files are the source of truth and are linked from `content/weeks/week-03.mdx` via their GitHub blob URL (e.g. `https://github.com/<user>/<repo>/blob/main/coursework/week-03/notebook.ipynb`), since GitHub renders notebooks natively.
 
-If a file needs to be directly downloadable or embedded from the live site (e.g. a PDF report or a results screenshot), put a copy in `public/weeks/week-03/` instead — see that folder's note.
+If a file needs to be directly downloadable or embedded from the live site (e.g. a PDF report or a results screenshot), put a copy in `public/weeks/week-03/` instead, see that folder's note.
+
+## Contents
+
+- `covariance_pearson_correlation.ipynb`
+- `linear_regression.ipynb`
+- `multiple_linear_regression.ipynb`
+- `polynomial_regression.ipynb`
+
+`multiple_linear_regression.ipynb` expects a `cars.csv` dataset in this same folder; add it here before re-running that notebook.

@@ -1,12 +1,64 @@
 ---
 week: 3
-title: "Week 3"
-dateRange: "27 Oct – 2 Nov 2026"
-status: "not-started"
-summary: "Content for Week 3 has not been added yet."
-topics: []
-links: []
+title: "Week 3: Correlation and Regression"
+status: "complete"
+summary: "Unit 3 assessment covering covariance, Pearson correlation, simple linear regression, multiple linear regression, and polynomial regression, with variable changes observed across all four notebooks."
+topics: ["Covariance", "Pearson correlation", "Linear regression", "Multiple linear regression", "Polynomial regression", "Dataset challenges", "ML ethics"]
+links: [
+  { label: "covariance_pearson_correlation.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-03/covariance_pearson_correlation.ipynb", type: "notebook" },
+  { label: "linear_regression.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-03/linear_regression.ipynb", type: "notebook" },
+  { label: "multiple_linear_regression.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-03/multiple_linear_regression.ipynb", type: "notebook" },
+  { label: "polynomial_regression.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-03/polynomial_regression.ipynb", type: "notebook" }
+]
 images: []
 ---
 
-_Content for this week has not been added yet. Check back once Week 3 materials are released._
+## Assessment brief
+
+As in the Unit 2 activity, run all four of the following programmes in Jupyter Notebook (downloaded from the Essex Software Hub or via Google Colab), changing variables as needed to observe how the change in data points impacts correlation and regression:
+
+- `covariance_pearson_correlation.ipynb`
+- `linear_regression.ipynb`
+- `multiple_linear_regression.ipynb`
+- `polynomial_regression.ipynb`
+
+**Learning outcomes**
+
+- Articulate the legal, social, ethical and professional issues faced by machine learning professionals.
+- Understand the applicability and challenges associated with different datasets for the use of machine learning algorithms.
+
+## Walkthrough
+
+### 1. Covariance and Pearson correlation
+
+Two synthetic, normally distributed variables are generated with NumPy (`data1 = 20 * randn(1000) + 100`, `data2 = data1 + (10 * randn(1000) + 50)`), so `data2` is deliberately constructed as a noisy linear function of `data1`. Covariance and Pearson's `r` are then computed with `numpy.cov` and `scipy.stats.pearsonr`, and the pair is visualised as a scatter plot.
+
+Because `data2` is derived directly from `data1` plus independent noise, the correlation comes out strongly positive. Changing the noise scale (the `10 * randn(1000)` term) or the sample size changes how tight the scatter is and how close `r` sits to 1: more noise pulls the correlation toward 0, less noise pushes it toward 1. This is a useful first check before applying any regression model: a near-zero Pearson correlation is a signal that a linear model is the wrong tool for that pair of variables.
+
+### 2. Simple linear regression
+
+A single-feature linear regression is fitted on 13 manually defined `(x, y)` points using `scipy.stats.linregress`, which returns slope, intercept, `r`, `p`-value, and standard error in one call. The fitted line is used to predict a new value (x = 10 gives y = 85.59) and plotted alongside the original scatter.
+
+Running this notebook surfaced a small bug in the provided code: the module is imported as `from scipy import stats`, but the first call uses `stat.linregress(...)` (missing the `s`). The `import stats` module in the import statement should use `stats.linregress(x, y)` consistently, the way the later "Predict Future Values" cell does, since that version imports and calls `stats` correctly. It is a good example of how easy it is to introduce a `NameError` through a simple aliasing slip, and why running every cell rather than just reading the code matters.
+
+### 3. Multiple linear regression
+
+`sklearn.linear_model.LinearRegression` is fitted on a `cars.csv` dataset using two independent variables, `Weight` and `Volume`, to predict `CO2` emissions. For a car weighing 2300 kg with a 1300 cm³ engine, the model predicts 107.21 g CO2. The fitted coefficients (`0.00755095` for weight, `0.00780526` for volume) show how much CO2 output changes per unit increase in each feature, holding the other constant.
+
+Increasing weight alone from 2300 kg to 3300 kg (volume held at 1300 cm³) raises the prediction to 114.76 g, consistent with the coefficient: `107.2087 + 1000 * 0.00755095 ≈ 114.76`. This is a clean illustration of why multiple regression coefficients only have that "per unit, holding everything else constant" interpretation when the underlying features are not strongly collinear; weight and engine volume in real vehicle data often *are* correlated, which is a dataset challenge worth flagging rather than ignoring.
+
+### 4. Polynomial regression
+
+A degree-3 polynomial (`numpy.polyfit(x, y, 3)`) is fitted to toll booth data: 18 cars' time-of-day (x) against speed (y). The fit reaches an R² of 0.943, meaning the cubic curve explains about 94% of the variance in speed, a strong fit for this dataset. The model is then used to predict the speed of a car passing at 17:00, giving approximately 88.87.
+
+Changing the polynomial degree is the key experiment here: a degree too low underfits the clear non-linear dip in the data (speed drops around midday and rises again later), while pushing the degree too high starts overfitting noise in only 18 data points, a direct, hands-on demonstration of the bias-variance trade-off that polynomial models are especially sensitive to compared to linear or multiple linear regression.
+
+## Reflection on the learning outcomes
+
+Running all four notebooks side by side makes the second learning outcome concrete: the same broad task (fit a line or curve, then predict) behaves very differently depending on the dataset. Clean synthetic data (notebook 1) gives a textbook-strength correlation; a tiny 13-point sample (notebook 2) is fragile to outliers and to simple coding mistakes; real tabular data with two correlated predictors (notebook 3) raises the question of multicollinearity; and a small, noisy real-world time series (notebook 4) exposes the overfitting risk that comes with flexible polynomial models.
+
+On the first learning outcome, this also points to a professional and ethical responsibility: a regression model's apparent accuracy (a high R², a low p-value) is not the same as it being *appropriate* for the data it was trained on or the decisions it will be used to support. Reporting a predicted CO2 figure or a predicted speed without disclosing the sample size, the risk of collinearity, or the bias-variance trade-off involved would be professionally misleading, especially if those predictions were to inform regulatory, safety, or environmental claims.
+
+## Note on reproducing these notebooks
+
+`multiple_linear_regression.ipynb` expects a `cars.csv` file in the same directory as the notebook; that dataset is not yet included in this repository and should be added to `coursework/week-03/` before re-running that notebook from a fresh clone.

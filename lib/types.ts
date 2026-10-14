@@ -23,7 +23,6 @@ export interface WeekImage {
 export interface WeekFrontmatter {
   week: number;
   title: string;
-  dateRange: string;
   status: WeekStatus;
   summary: string;
   topics: string[];

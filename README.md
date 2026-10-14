@@ -19,13 +19,13 @@ components/           Shared React components (cards, badges, tags, MDX renderer
 lib/                   Types, content loader (lib/weeks.ts), site config
 content/weeks/         One .mdx file per week (frontmatter + write-up), week-01.mdx … week-12.mdx
 public/weeks/week-NN/  Assets the live site serves directly (PDFs, screenshots)
-coursework/week-NN/    Raw working files (notebooks, datasets, scripts) — source of truth
+coursework/week-NN/    Raw working files (notebooks, datasets, scripts), source of truth
 ```
 
 ### Where do artifacts live?
 
-- **`public/weeks/week-NN/`** — anything the live site should serve or link to for direct download: PDF reports, result screenshots, small images referenced from that week's MDX. Keep files small; everything here ships in the Vercel deployment.
-- **`coursework/week-NN/`** — the actual working files (Jupyter notebooks, datasets, scripts). These are linked from the week's MDX frontmatter via their GitHub blob URL (e.g. `https://github.com/<user>/<repo>/blob/main/coursework/week-01/notebook.ipynb`), since GitHub renders `.ipynb` notebooks natively — no in-app notebook viewer is needed.
+- **`public/weeks/week-NN/`**: anything the live site should serve or link to for direct download: PDF reports, result screenshots, small images referenced from that week's MDX. Keep files small; everything here ships in the Vercel deployment.
+- **`coursework/week-NN/`**: the actual working files (Jupyter notebooks, datasets, scripts). These are linked from the week's MDX frontmatter via their GitHub blob URL (e.g. `https://github.com/<user>/<repo>/blob/main/coursework/week-01/notebook.ipynb`), since GitHub renders `.ipynb` notebooks natively, so no in-app notebook viewer is needed.
 
 ## Adding a week's content
 
@@ -37,7 +37,7 @@ Each week already has a placeholder at `content/weeks/week-NN.mdx`. To fill it i
    - Update `status` to `"in-progress"` or `"complete"`.
    - Fill in `summary`, `topics`, and `links` (each link has a `label`, `href`, and `type` of `notebook | dataset | pdf | report | repo | other`).
    - Write the week's body as Markdown/MDX below the frontmatter.
-4. Commit and push — pushing to `main` triggers a new Vercel deployment automatically.
+4. Commit and push; pushing to `main` triggers a new Vercel deployment automatically.
 
 ## Local development
 

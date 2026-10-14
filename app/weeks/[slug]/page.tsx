@@ -35,7 +35,6 @@ export default async function WeekPage({
           </h1>
           <StatusBadge status={frontmatter.status} />
         </div>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400">{frontmatter.dateRange}</p>
         {frontmatter.topics.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {frontmatter.topics.map((topic) => (

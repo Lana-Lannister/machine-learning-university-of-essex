@@ -10,7 +10,7 @@ export default function Hero() {
         {siteConfig.studentName}
       </h1>
       <p className="text-lg text-zinc-600 dark:text-zinc-300">
-        {siteConfig.programme} — {siteConfig.module} e-portfolio
+        {siteConfig.programme}, {siteConfig.module} e-portfolio
       </p>
       <p className="max-w-2xl text-sm text-zinc-500 dark:text-zinc-400">{siteConfig.bio}</p>
     </section>

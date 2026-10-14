@@ -19,7 +19,6 @@ export default function WeekCard({ week }: { week: Week }) {
       <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
         {frontmatter.title}
       </h3>
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">{frontmatter.dateRange}</p>
       <p className="text-sm text-zinc-600 dark:text-zinc-300">{frontmatter.summary}</p>
       <span className="mt-auto text-sm font-medium text-indigo-600 group-hover:underline dark:text-indigo-400">
         View week →
