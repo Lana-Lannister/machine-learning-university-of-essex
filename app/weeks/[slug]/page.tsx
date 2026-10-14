@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { getAllWeekSlugs, getAllWeeks, getWeekBySlug } from "@/lib/weeks";
+import rehypeSlug from "rehype-slug";
+import { getAllWeekSlugs, getAllWeeks, getAssessmentHeadings, getWeekBySlug } from "@/lib/weeks";
 import { mdxComponents } from "@/components/mdx-components";
 import StatusBadge from "@/components/StatusBadge";
 import TopicTag from "@/components/TopicTag";
@@ -27,6 +28,10 @@ export default async function WeekPage({
   const index = allSlugs.indexOf(slug);
   const prevSlug = index > 0 ? allSlugs[index - 1] : undefined;
   const nextSlug = index < allSlugs.length - 1 ? allSlugs[index + 1] : undefined;
+  const assessments =
+    frontmatter.assessmentCount && frontmatter.assessmentCount > 1
+      ? getAssessmentHeadings(content)
+      : [];
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col gap-8 px-6 py-10">
@@ -54,11 +59,31 @@ export default async function WeekPage({
         )}
       </header>
 
+      {assessments.length > 0 && (
+        <nav className="flex flex-col gap-2 rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+          <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            This week&apos;s assessments
+          </span>
+          <ol className="flex flex-col gap-1">
+            {assessments.map((assessment) => (
+              <li key={assessment.anchor}>
+                <a
+                  href={`#${assessment.anchor}`}
+                  className="text-sm text-indigo-600 hover:underline dark:text-indigo-400"
+                >
+                  {assessment.title}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )}
+
       <section className="prose prose-zinc dark:prose-invert max-w-none">
         <MDXRemote
           source={content}
           components={mdxComponents}
-          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug] } }}
         />
       </section>
 
