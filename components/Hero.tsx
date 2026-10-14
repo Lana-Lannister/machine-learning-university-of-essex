@@ -9,6 +9,7 @@ export default function Hero() {
       <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl dark:text-zinc-50">
         {siteConfig.studentName}
       </h1>
+      <p className="text-sm text-zinc-500 dark:text-zinc-400">Student ID: {siteConfig.studentId}</p>
       <p className="text-lg text-zinc-600 dark:text-zinc-300">
         {siteConfig.programme}, {siteConfig.module} e-portfolio
       </p>

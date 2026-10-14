@@ -1,5 +1,6 @@
 export const siteConfig = {
   studentName: "Lana Fidelis",
+  studentId: "39536",
   programme: "MSc Artificial Intelligence",
   module: "Machine Learning",
   university: "University of Essex",
