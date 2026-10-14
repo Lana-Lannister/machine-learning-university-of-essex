@@ -1,11 +1,171 @@
 ---
 week: 10
-title: "Week 10"
+title: "Week 10: Large Language Models, Creativity, and Governance"
 status: "complete"
-summary: "Content for Week 10 has not been added yet."
-topics: []
+summary: "Three discussion forum peer responses: to Julio Espinosa Rifel on creativity and open architectures, to Patrick Tosto on AI writing risks and system-level safeguards, and to Dzemal Jukic on risk-tiered deployment of AI writers."
+topics: ["Large language models", "AI ethics", "Creativity", "Open-source AI", "AI governance", "Algorithmic bias", "Discussion forum"]
 links: []
 images: []
 ---
 
-_Content for this week has not been added yet. Check back once Week 10 materials are released._
+## Thread 1: Julio Espinosa Rifel, Benefits and Risks of LLMs
+
+### Initial Post (for context)
+
+_by Julio Espinosa Rifel, Wednesday, 5 August 2026, 1:37 PM_
+
+The rise of large language models (LLMs) forces us to critically evaluate their benefits and risks across different levels of application. An obstacle is our tendency to attribute human reasoning to them through natural language, mistaking fluency for coherent understanding (Bender et al., 2021). The same authors describe these tools as "stochastic parrots," repeating statistical patterns without genuine understanding, an idea Hutson (2021) echoes in describing models that write fluently while grasping nothing of what they say.
+
+At the administrative level, AI writers' main benefit is automation: models like GPT-3 usefully summarise legal documents, assist customer service, or draft press releases and technical manuals (Hutson, 2021), though this utility carries risks. Functionally, an ecosystem where AI increasingly drafts and summarises text for human consumption risks diluting human assimilation of knowledge: Melumad and Yun (2025) show experimentally that people who learn from LLM summaries develop shallower knowledge than those who engage directly with sources because of the decrease in the cognitive effort. Technically, model opacity hides a specific privacy vulnerability: models can memorise and reproduce exact training sequences verbatim (Carlini et al., 2021). This technical risk arguably calls for moving away from commercial "black boxes" towards data deduplication (Kandpal, Wallace and Raffel, 2022) and open architectures such as OLMo (Groeneveld et al., 2024).
+
+At the level of creative writing, few-shot learning (Brown et al., 2020) gives AI systems the technical capacity to generate variations from minimal prompting, which in practice can function as an intellectual "sparring partner" for creators. The risk lies in confusing this combinatorial recombination with genuine originality: this kind of computational novelty is distinguished from the exploratory and transformational creativity that reshapes a field's own rules (Boden, 2004). Computer engines have outperformed humans at chess for decades without devaluing human intellect: McGrath et al. (2022) show that AlphaZero's internal representations converge on concepts human grandmasters recognise and can learn from, evidence that machine superiority augmented rather than displaced human understanding of the game. The analogy to art has limits, though, since artistic practice carries economic, social, and authorial functions a closed game does not. As psychological research on creativity demonstrates, genuine creativity is not statistical data processing but a social phenomenon anchored in intentionality, lived experience, and cultural validation (Amabile, 1996; Csikszentmihalyi, 1999).
+
+Finally, at the macrosocial level, benefits and risks hinge on technological sovereignty. Bender et al. (2021) warn of "value-lock", where LLMs embody older, less inclusive norms rather than tracking how societies evolve, because their static training datasets fail to capture the shifting language of recent social movements, effectively freezing older, dominant representations instead of adapting to evolving norms (Bender et al., 2021). This is also how outdated or extremist framings can resurface as mainstream (Hutson, 2021). The European Commission (2021) stresses aligning AI with fundamental rights as a moving target, which requires each region to keep auditing and adjusting these systems rather than depending on fixed commercial architectures.
+
+#### References (initial post)
+
+Amabile, T. M. and Pillemer, J. (2012) 'Perspectives on the Social Psychology of Creativity', *The Journal of Creative Behavior*, 46(1), pp. 3-15. Available at: https://doi.org/10.1002/jocb.001.
+
+Bender, E. M., et al. (2021) 'On the dangers of stochastic parrots: can language models be too big?', in *Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency*. New York: Association for Computing Machinery, pp. 610-623. Available at: https://doi.org/10.1145/3442188.3445922.
+
+Boden, M. A. (2004) *The Creative Mind: Myths and Mechanisms*. 2nd edn. London: Routledge.
+
+Brown, T. B. et al. (2020) 'Language models are few-shot learners', in *Advances in Neural Information Processing Systems*, 33, pp. 1877-1901. Available at: https://papers.nips.cc/paper/2020/hash/1457c0d6bfcb4967418bfb8ac142f64a-Abstract.html (Accessed: 5 August 2026).
+
+Carlini, N. et al. (2021) 'Extracting training data from large language models', in *Proceedings of the 30th USENIX Security Symposium (USENIX Security 21)*. Berkeley, CA: USENIX Association, pp. 2633-2650. Available at: https://www.usenix.org/system/files/sec21-carlini-extracting.pdf (Accessed: 5 August 2026).
+
+Csikszentmihalyi, M. (1999) 'Implications of a systems perspective for the study of creativity', in Sternberg, R. J. (ed.) *Handbook of Creativity*. Cambridge: Cambridge University Press, pp. 313-335.
+
+European Commission (2021) *Communication from the Commission to the European Parliament, the Council, the European Economic and Social Committee and the Committee of the Regions: Fostering a European Approach to Artificial Intelligence*, COM(2021) 205 final. Brussels: European Commission.
+
+Groeneveld, D. et al. (2024) 'OLMo: accelerating the science of language models', in *Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*. Bangkok: Association for Computational Linguistics, pp. 15789-15809. Available at: https://doi.org/10.18653/v1/2024.acl-long.841.
+
+Hutson, M. (2021) 'The language machines', *Nature*, 591(7848), pp. 22-25. Available at: https://doi.org/10.1038/d41586-021-00530-0.
+
+Kandpal, N., Wallace, E. and Raffel, C. (2022) 'Deduplicating training data mitigates privacy risks in language models', *Proceedings of the 39th International Conference on Machine Learning*, PMLR 162, pp. 10697-10711. Available at: https://proceedings.mlr.press/v162/kandpal22a.html (Accessed: 5 August 2026).
+
+McGrath, T., et al. (2022) 'Acquisition of chess knowledge in AlphaZero', *Proceedings of the National Academy of Sciences of the United States of America*, 119(47), e2206625119. Available at: https://doi.org/10.1073/pnas.2206625119.
+
+Melumad, S. and Yun, J. H. (2025) 'Experimental evidence of the effects of large language models versus web search on depth of learning', *PNAS Nexus*, 4(10), pgaf316. Available at: https://doi.org/10.1093/pnasnexus/pgaf316.
+
+### Peer Response
+
+_by Lana Menezes Fidelis, Monday, 14 September 2026, 9:50 PM_
+
+Hello Julio! Your distinction between combinatorial recombination and Boden's (2004) exploratory/transformational creativity is the sharpest point in your post, and it holds up empirically. Stevenson et al. (2022) tested GPT-3 directly against humans on Guilford's Alternative Uses Test and found that while GPT-3 matched or exceeded humans on usefulness, humans still outperformed it on originality, surprise, and flexibility, the very dimensions that separate rule-following variation from genuinely reshaping a problem space. That gap fits your "sparring partner" framing: the model widens the search space, but the exploratory leap still seems to sit with the human.
+
+I'd push harder on the macrosocial section, though. You propose open architectures like OLMo as a structural fix for opacity, but Widder, West and Whittaker (2023) argue that "open" AI rarely delivers the oversight or democratic access its framing implies, since the underlying compute and infrastructure remain concentrated in a handful of firms regardless of licence terms. Openness may solve memorisation risk without touching value-lock at all. Worse, Birhane, Prabhu and Kahembwe (2021) found that large scraped datasets, the exact kind that feed both open and closed models, contain misogynistic, racist, and extremist material, which suggests the "older, less inclusive norms" Bender et al. (2021) warn about are not incidental but baked into the data supply chain itself.
+
+So if neither openness nor auditing (European Commission, 2021) fully addresses the root cause, where would you locate the actual point of intervention: dataset curation before training, or continuous post-hoc governance after deployment?
+
+#### References (peer response)
+
+Birhane, A., Prabhu, V.U. and Kahembwe, E. (2021) 'Multimodal datasets: misogyny, pornography, and malignant stereotypes', arXiv preprint, arXiv:2110.01963. Available at: https://doi.org/10.48550/arXiv.2110.01963.
+
+Stevenson, C., Smal, I., Baas, M., Grasman, R. and van der Maas, H. (2022) 'Putting GPT-3's creativity to the (alternative uses) test', in *Proceedings of the 13th International Conference on Computational Creativity (ICCC'22)*. Association for Computational Creativity, pp. 164-168.
+
+Widder, D.G., West, S.M. and Whittaker, M. (2023) 'Open (for business): big tech, concentrated power, and the political economy of open AI'. Available at: https://doi.org/10.2139/ssrn.4543807.
+
+## Thread 2: Patrick Tosto, AI Writing Risks and Safeguards
+
+### Initial Post (for context)
+
+_by Patrick Tosto, Thursday, 13 August 2026, 8:33 AM_
+
+Hutson (2021) describes GPT-3 as a system that predicts text by observing statistical relationships between the words it has read, without understanding their meaning, and that distinction is what makes the risks and benefits of AI writers vary so sharply depending on the work being asked of them.
+
+At the administrative end, the case is strong. Hutson (2021) reports developers testing GPT-3 on summarising legal documents and suggesting answers to customer service enquiries, and Noy and Zhang (2023) provide the experimental evidence in their study of college-educated professionals given occupation-specific writing tasks, where average time fell by 40 per cent and assessed quality rose by 18 per cent. The finding I consider more revealing sits underneath those headline numbers. Noy and Zhang (2023) tested whether participants treated the tool as an imperfect assistant, drafting with it and then improving the result, and found instead that almost everyone submitted its output either unedited or barely touched, with the editing that did occur being superficial and producing no measurable gain in grades. The productivity came from substitution rather than from collaboration, which is a less comfortable result than the time saving alone suggests.
+
+The risks scale with how much interpretation the task demands. Bender et al. (2021) argue that such a model assembles word sequences purely from probabilities learned in training, with nothing underneath standing for what those words denote, and they name the result a stochastic parrot. The point they draw from this is that the coherence belongs to whoever is reading rather than to the system producing the text, so fluency carries no reliability with it. Hutson (2021) records the sharpest illustration, where a healthcare company prompted a GPT-3 chatbot with a question about suicide and received agreement. Fluent prose that is confidently wrong is more dangerous than obviously broken prose, because it defeats the reader's ordinary scepticism.
+
+Creative writing occupies a more interesting middle position. Hutson (2021) cites a poet reporting that the model produced material worth editing more than half the time, which frames the tool as a generator of raw material rather than an author. My own view is that this is the honest framing for every level of use, and the difficulty is that the evidence above suggests it is not the framing people actually adopt. Where output is accepted as finished rather than worked on, the absence of meaning stops being a curiosity and becomes a liability, and that risk grows precisely as the task moves from administrative routine towards work where judgement is the point.
+
+#### References (initial post)
+
+Bender, E.M., Gebru, T., McMillan-Major, A. and Shmitchell, S. (2021) 'On the dangers of stochastic parrots: can language models be too big?', in *Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency*. New York: Association for Computing Machinery, pp. 610-623. Available at: https://s10251.pcdn.co/pdf/2021-bender-parrots.pdf (Accessed: 13 August 2026).
+
+Hutson, M. (2021) 'Robo-writers: the rise and risks of language-generating AI', *Nature*, 591(7848), pp. 22-25. Available at: https://doi.org/10.1038/d41586-021-00530-0 (Accessed: 13 August 2026).
+
+Noy, S. and Zhang, W. (2023) 'Experimental evidence on the productivity effects of generative artificial intelligence', *Science*, 381(6654), pp. 187-192. Available at: https://doi.org/10.1126/science.adh2586 (Accessed: 13 August 2026).
+
+### Peer Response
+
+_by Lana Menezes Fidelis, Wednesday, 23 September 2026, 1:20 AM_
+
+Hello Patrick!
+
+Julio and Damiano have already explained why users offload their thinking and how the quality of their engagement shapes the outcome, so I would like to focus on what could have prevented the incidents you describe. In my view, these safeguards belong in the design of the system and the governance around it, rather than in the self-regulation of each user. Dell'Acqua et al. (2023) found that consultants using GPT-4 on a task just outside the model's capability were 19 percentage points less likely to reach a correct answer than those working without it, which suggests that the person reading a fluent output is often the one least able to notice when it is wrong.
+
+For administrative writing, one practical measure is the cognitive forcing function, where users record their own judgement before they see the AI's suggestion. Buçinca, Malaya and Gajos (2021) showed that this reduced overreliance, although participants enjoyed the process less. A second measure is retrieval-augmented generation, which grounds the output in documents that the reviewer can actually check (Lewis et al., 2020), making review quicker and more meaningful, even if it does not remove hallucination entirely (Ji et al., 2023).
+
+The Nabla case (Hutson, 2021) was, I would argue, a deployment failure before it was a moral one, because nobody had settled where the model should never be used before it was tested on a question about suicide. Model cards that state intended and out-of-scope uses (Mitchell et al., 2019), together with internal audits carried out before release (Raji et al., 2020), are designed to catch exactly this kind of decision. The EU AI Act now makes this a legal obligation, requiring a documented risk management system for high-risk applications (European Parliament and Council of the European Union, 2024, Art. 9). Taken together, these measures move the burden of prevention from the reader to the pipeline, where problems can be caught before any harm occurs.
+
+#### References (peer response)
+
+Buçinca, Z., Malaya, M.B. and Gajos, K.Z. (2021) 'To trust or to think: cognitive forcing functions can reduce overreliance on AI in AI-assisted decision-making', *Proceedings of the ACM on Human-Computer Interaction*, 5(CSCW1), Article 188, pp. 1-21. Available at: https://doi.org/10.1145/3449287 (Accessed: 22 September 2026).
+
+Dell'Acqua, F., McFowland, E., Mollick, E.R., Lifshitz-Assaf, H., Kellogg, K., Rajendran, S., Krayer, L., Candelon, F. and Lakhani, K.R. (2023) *Navigating the jagged technological frontier: field experimental evidence of the effects of AI on knowledge worker productivity and quality*. Harvard Business School Working Paper No. 24-013. Available at: https://doi.org/10.2139/ssrn.4573321 (Accessed: 22 September 2026).
+
+European Parliament and Council of the European Union (2024) *Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act)*. Official Journal of the European Union, L, 12 July. Available at: http://data.europa.eu/eli/reg/2024/1689/oj (Accessed: 22 September 2026).
+
+Hutson, M. (2021) 'Robo-writers: the rise and risks of language-generating AI', *Nature*, 591(7848), pp. 22-25. Available at: https://doi.org/10.1038/d41586-021-00530-0 (Accessed: 22 September 2026).
+
+Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., Ishii, E., Bang, Y.J., Madotto, A. and Fung, P. (2023) 'Survey of hallucination in natural language generation', *ACM Computing Surveys*, 55(12), Article 248, pp. 1-38. Available at: https://doi.org/10.1145/3571730 (Accessed: 22 September 2026).
+
+Lewis, P. et al. (2020) 'Retrieval-augmented generation for knowledge-intensive NLP tasks', *Advances in Neural Information Processing Systems*, 33, pp. 9459-9474. Available at: https://arxiv.org/abs/2005.11401 (Accessed: 22 September 2026).
+
+Mitchell, M., Wu, S., Zaldivar, A., Barnes, P., Vasserman, L., Hutchinson, B., Spitzer, E., Raji, I.D. and Gebru, T. (2019) 'Model cards for model reporting', in *Proceedings of the Conference on Fairness, Accountability, and Transparency*. New York: Association for Computing Machinery, pp. 220-229. Available at: https://doi.org/10.1145/3287560.3287596 (Accessed: 22 September 2026).
+
+Raji, I.D., Smart, A., White, R.N., Mitchell, M., Gebru, T., Hutchinson, B., Smith-Loud, J., Theron, D. and Barnes, P. (2020) 'Closing the AI accountability gap: defining an end-to-end framework for internal algorithmic auditing', in *Proceedings of the 2020 Conference on Fairness, Accountability, and Transparency*. New York: Association for Computing Machinery, pp. 33-44. Available at: https://doi.org/10.1145/3351095.3372873 (Accessed: 22 September 2026).
+
+## Thread 3: Dzemal Jukic, Risk-Tiered Deployment of AI Writers
+
+### Initial Post (for context)
+
+_by Dzemal Jukic, Saturday, 19 September 2026, 11:14 AM_
+
+The rapid development of AI writing systems creates significant opportunities for productivity, but also risks of harmful or discriminatory outputs. Hutson (2021) explains that although systems such as GPT-3 can produce convincing human-like text, they generate language from statistical relationships rather than genuinely understanding its meaning. This can have serious consequences. Hutson (2021) reports that GPT-3 could generate hate speech and racist or sexist stereotypes and describes a test in which a healthcare chatbot gave a dangerously inappropriate response when asked about suicide. Therefore, I believe the appropriate use of AI writers depends strongly on the purpose of the writing and the consequences of an incorrect or harmful output.
+
+For low-risk administrative work, AI writers can provide considerable benefits. Tasks such as drafting routine emails, summarising documents or correcting grammar are repetitive and can consume a considerable amount of employees' time. Automating these activities could allow workers to concentrate on more productive tasks. There may also be accessibility benefits, particularly for people writing in a second language. Nazari, Shabbir and Setiawan (2021), for example, found that an AI-powered writing assistant improved several measures of engagement and writing self-efficacy among postgraduate English-language learners.
+
+However, the risks increase when generated text is used in situations where outputs can affect people. LLMs can produce fluent and authoritative-sounding information even when the content is incorrect or harmful. Furthermore, models trained on large collections of human-produced text can reproduce biases contained within their training data. Abid, Farooqi and Zou (2021), for example, identified persistent anti-Muslim bias in GPT-3 and found that prompts mentioning Muslims generated violent completions considerably more frequently than prompts referring to other religious groups. Bender et al. (2021) similarly warn that large language models can reproduce discriminatory patterns present in their training data. Therefore, AI-generated content used in areas such as healthcare, law or other high-risk applications should be subject to human verification.
+
+Creative writing presents a different challenge. Factual accuracy may be less important, while AI can support brainstorming, overcome writer's block or suggest alternative formulations. However, extensive reliance on generated content raises questions about authorship and originality. Formosa et al. (2025) found that the degree of AI assistance influenced how people judged a writer's authorship, creatorship and responsibility for a creative work. There is also a risk that models trained on existing writing reproduce established patterns rather than creating genuinely novel perspectives.
+
+Overall, AI writers could be useful for low-risk administrative writing or as assistants in creative writing. On the other hand, human oversight is needed in areas where an inappropriate output could have serious consequences. Therefore, the acceptable level of AI autonomy should depend on the level of risk and uncertainty associated with an incorrect or harmful output.
+
+#### References (initial post)
+
+Abid, A., Farooqi, M. and Zou, J. (2021) 'Persistent anti-Muslim bias in large language models', *Proceedings of the 2021 AAAI/ACM Conference on AI, Ethics, and Society*, pp. 298-306. Available at: https://doi.org/10.1145/3461702.3462624 (Accessed: 18 September 2026).
+
+Bender, E.M., Gebru, T., McMillan-Major, A. and Shmitchell, S. (2021) 'On the dangers of stochastic parrots: Can language models be too big?', *Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency*, pp. 610-623. Available at: https://doi.org/10.1145/3442188.3445922 (Accessed: 19 September 2026).
+
+Formosa, P., Bankins, S., Matulionyte, R. and Ghasemi, O. (2025) 'Can ChatGPT be an author? Generative AI creative writing assistance and perceptions of authorship, creatorship, responsibility, and disclosure', *AI & Society*, 40, pp. 3405-3417. Available at: https://doi.org/10.1007/s00146-024-02081-0 (Accessed: 19 September 2026).
+
+Hutson, M. (2021) 'Robo-writers: The rise and risks of language-generating AI', *Nature*, 591(7848), pp. 22-25. Available at: https://doi.org/10.1038/d41586-021-00530-0 (Accessed: 17 September 2026).
+
+Nazari, N., Shabbir, M.S. and Setiawan, R. (2021) 'Application of artificial intelligence powered digital writing assistant in higher education: Randomized controlled trial', *Heliyon*, 7(5), e07014. Available at: https://doi.org/10.1016/j.heliyon.2021.e07014 (Accessed: 19 September 2026).
+
+### Peer Response
+
+_by Lana Menezes Fidelis, Wednesday, 23 September 2026, 1:29 AM_
+
+Hello Dzemal!
+
+Your risk-tiered framework is a useful basis for prevention, and since Damiano and Patrick have already discussed where bias comes from and who should review it, I would like to look at how a system is placed in the right tier in the first place, and at one risk hidden in the low-risk tier. The NIST AI Risk Management Framework argues that risks should be mapped and measured in the context of deployment rather than assumed (Tabassi, 2023), and your own source shows why this matters. Abid, Farooqi, and Zou (2021) found that adding positive phrases to the prompt reduced violent completions about Muslims from 66% to 20%, which was still higher than for other religious groups, so fixes applied at the prompt are fragile. Measuring bias before release is therefore a stronger safeguard, using benchmarks such as BBQ (Parrish et al., 2022) or automated red teaming, where one language model generates test cases for another and has uncovered tens of thousands of offensive replies that manual testing would have missed (Perez et al., 2022).
+
+The accessibility benefit you describe for second-language writers also carries a risk that is easy to overlook. Liang et al. (2023) found that popular AI detectors classified more than half of TOEFL essays written by non-native speakers as AI-generated, which means that a low-risk use can quickly become a fairness problem once institutions rely on detectors as evidence. A sensible preventive measure is that detector output should never be the sole basis for a misconduct decision. Marking provenance at the point of generation through watermarking may be more reliable than guessing afterwards, although paraphrasing can weaken it (Kirchenbauer et al., 2023). This suggests that the risk tier should apply to the whole system around AI writing, including the tools used to police it, and not only to the generator itself.
+
+#### References (peer response)
+
+Abid, A., Farooqi, M. and Zou, J. (2021) 'Persistent anti-Muslim bias in large language models', in *Proceedings of the 2021 AAAI/ACM Conference on AI, Ethics, and Society*. New York: Association for Computing Machinery, pp. 298-306. Available at: https://doi.org/10.1145/3461702.3462624 (Accessed: 22 September 2026).
+
+Kirchenbauer, J., Geiping, J., Wen, Y., Katz, J., Miers, I. and Goldstein, T. (2023) 'A watermark for large language models', in *Proceedings of the 40th International Conference on Machine Learning*. PMLR 202, pp. 17061-17084. Available at: https://proceedings.mlr.press/v202/kirchenbauer23a.html (Accessed: 22 September 2026).
+
+Liang, W., Yuksekgonul, M., Mao, Y., Wu, E. and Zou, J. (2023) 'GPT detectors are biased against non-native English writers', *Patterns*, 4(7), 100779. Available at: https://doi.org/10.1016/j.patter.2023.100779 (Accessed: 20 September 2026).
+
+Parrish, A., Chen, A., Nangia, N., Padmakumar, V., Phang, J., Thompson, J., Htut, P.M. and Bowman, S.R. (2022) 'BBQ: a hand-built bias benchmark for question answering', in *Findings of the Association for Computational Linguistics: ACL 2022*. Dublin: Association for Computational Linguistics, pp. 2086-2105. Available at: https://doi.org/10.18653/v1/2022.findings-acl.165 (Accessed: 22 September 2026).
+
+Perez, E., Huang, S., Song, F., Cai, T., Ring, R., Aslanides, J., Glaese, A., McAleese, N. and Irving, G. (2022) 'Red teaming language models with language models', in *Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing*. Abu Dhabi: Association for Computational Linguistics, pp. 3419-3448. Available at: https://doi.org/10.18653/v1/2022.emnlp-main.225 (Accessed: 21 September 2026).
+
+Tabassi, E. (2023) *Artificial Intelligence Risk Management Framework (AI RMF 1.0)*. NIST AI 100-1. Gaithersburg, MD: National Institute of Standards and Technology. Available at: https://doi.org/10.6028/NIST.AI.100-1 (Accessed: 22 September 2026).

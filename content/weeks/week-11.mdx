@@ -1,16 +1,53 @@
 ---
 week: 11
-title: "Week 11: Model Performance Measurement (AUC and R2)"
+title: "Week 11: Discussion Forum Summary, and Model Performance Measurement"
 status: "complete"
-summary: "Unit 11 assessment running the model performance measurement notebook and varying regularization strength, train/test split size, and model complexity to observe their impact on AUC and R2."
-topics: ["AUC / ROC", "R2 score", "Regularization", "Overfitting", "Model evaluation", "ML ethics"]
+summary: "Two assessments this week: a discussion forum summary post reflecting on AI writer risks, benefits, and governance, and the model performance measurement notebook assessment (AUC and R2)."
+topics: ["Large language models", "AI governance", "Discussion forum", "AUC / ROC", "R2 score", "Regularization", "Overfitting", "Model evaluation", "ML ethics"]
+assessmentCount: 2
 links: [
   { label: "model_performance_measurement.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-11/model_performance_measurement.ipynb", type: "notebook" }
 ]
 images: []
 ---
 
-## Assessment brief
+## Assessment 1: Discussion Forum Summary Post
+
+### Summary Post
+
+_by Lana Menezes Fidelis, Thursday, 1 October 2026, 2:53 PM_
+
+Looking back on this discussion, the main change in my thinking is the question I ask. I no longer ask whether AI writers are beneficial. I ask where uncertainty about their outputs can be tolerated.
+
+My initial post focused on documented harms: fluent but ungrounded text, dangerous advice, radicalising content, and memorised personal data (Hutson, 2021; Bender et al., 2021). Dzemal's response exposed a gap in that argument. I had treated risk as a property of the model alone, when it depends on the model and the context it is used in. The evidence on benefits supports his reading. Noy and Zhang (2023) found that ChatGPT cut the time spent on professional writing tasks by 40% while improving quality. Doshi and Hauser (2024) found that AI-generated ideas made individual stories more creative but made the stories as a group less diverse. Neither finding removes the failures I described. Both benefits appear where an error is cheap to spot.
+
+Patrick complicated the picture from the other side. The mitigations proposed by McGuffie and Newhouse (2020) and Carlini et al. (2021) are real, but their own authors describe them as partial. His question, whether the constraint is technical or institutional, made me reconsider the recent units material. A network's behaviour is learned from its training data rather than written by hand, so many risks cannot be fully tested away after training. That places responsibility upstream with developers, who have weak incentives to audit their systems without outside accountability (Raji et al., 2020). The EU AI Act's transparency obligations are one attempt to change those incentives, though how well they work has yet to be shown (European Parliament and Council of the European Union, 2024).
+
+I therefore no longer hold that the benefits are simply oversold. A more defensible conclusion is that the benefits are immediate and measurable, while the harms are spread out, delayed, and harder to trace to their source (Weidinger et al., 2021). That imbalance, more than capability itself, is what makes AI writers hard to govern.
+
+#### References (summary post)
+
+Bender, E.M., Gebru, T., McMillan-Major, A. and Shmitchell, S. (2021) 'On the dangers of stochastic parrots: can language models be too big?', *Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency*, pp. 610-623. Available at: https://doi.org/10.1145/3442188.3445922 (Accessed: 1 October 2026).
+
+Carlini, N., Tramèr, F., Wallace, E., Jagielski, M., Herbert-Voss, A., Lee, K., Roberts, A., Brown, T., Song, D., Erlingsson, Ú., Oprea, A. and Raffel, C. (2021) 'Extracting training data from large language models', *Proceedings of the 30th USENIX Security Symposium*. Berkeley, CA: USENIX Association, pp. 2633-2650.
+
+Doshi, A.R. and Hauser, O.P. (2024) 'Generative AI enhances individual creativity but reduces the collective diversity of novel content', *Science Advances*, 10(28), eadn5290. Available at: https://doi.org/10.1126/sciadv.adn5290 (Accessed: 1 October 2026).
+
+European Parliament and Council of the European Union (2024) *Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act)*. Official Journal of the European Union, L, 12 July.
+
+Hutson, M. (2021) 'Robo-writers: the rise and risks of language-generating AI', *Nature*, 591(7848), pp. 22-25. Available at: https://doi.org/10.1038/d41586-021-00530-0 (Accessed: 1 October 2026).
+
+McGuffie, K. and Newhouse, A. (2020) *The radicalization risks of GPT-3 and advanced neural language models*. arXiv:2009.06807. Available at: https://arxiv.org/abs/2009.06807 (Accessed: 1 October 2026).
+
+Noy, S. and Zhang, W. (2023) 'Experimental evidence on the productivity effects of generative artificial intelligence', *Science*, 381(6654), pp. 187-192. Available at: https://doi.org/10.1126/science.adh2586 (Accessed: 1 October 2026).
+
+Raji, I.D., Smart, A., White, R.N., Mitchell, M., Gebru, T., Hutchinson, B., Smith-Loud, J., Theron, D. and Barnes, P. (2020) 'Closing the AI accountability gap: defining an end-to-end framework for internal algorithmic auditing', *Proceedings of the 2020 Conference on Fairness, Accountability, and Transparency*, pp. 33-44. Available at: https://doi.org/10.1145/3351095.3372873 (Accessed: 1 October 2026).
+
+Weidinger, L. et al. (2021) *Ethical and social risks of harm from language models*. arXiv:2112.04359. Available at: https://arxiv.org/abs/2112.04359 (Accessed: 1 October 2026).
+
+## Assessment 2: Model Performance Measurement (AUC and R2)
+
+### Assessment brief
 
 Run the `model_Performance_Measurement.ipynb` file and change different parameters and observe its impact on AUC and R2 error.
 
@@ -18,15 +55,15 @@ Run the `model_Performance_Measurement.ipynb` file and change different paramete
 
 - Articulate the legal, social, ethical and professional issues faced by machine learning professionals.
 
-## Walkthrough
+### Walkthrough
 
-### What the notebook covers
+#### What the notebook covers
 
 The notebook is a reference tour of `scikit-learn`'s evaluation metrics rather than a single end-to-end model: confusion matrices, F1/accuracy/precision/recall (binary, multiclass, and multilabel), log loss, ROC AUC (binary, via the Breast Cancer dataset, and multiclass, via a one-vs-rest SVM on Iris), and the regression metrics MSE, MAE, and R2 on a small four-point toy example. Running it as provided surfaces a real bug: the cell that imports `accuracy_score` begins with a leading space (` from sklearn.metrics import accuracy_score`), which raises an `IndentationError` in a fresh kernel, since a module-level import cannot be indented. The fix is simply to remove the leading space.
 
 The notebook's own AUC example also has a methodological issue worth flagging before experimenting further: it fits `LogisticRegression` on the full Breast Cancer dataset and then computes AUC on that exact same data, with no held-out test set. That returned an AUC of **0.9946**, which is an optimistic, inflated number: it measures how well the model fits data it has already seen, not how well it would generalise to new patients. This is corrected in the experiments below by introducing a proper train/test split before computing AUC and R2.
 
-### Experiment 1: AUC vs. regularization strength (C), with a real held-out test set
+#### Experiment 1: AUC vs. regularization strength (C), with a real held-out test set
 
 Using the Breast Cancer dataset with a 70/30 train/test split, varying `LogisticRegression`'s inverse regularization strength `C`:
 
@@ -40,7 +77,7 @@ Using the Breast Cancer dataset with a 70/30 train/test split, varying `Logistic
 
 Train AUC keeps climbing as `C` increases (less regularization, the model fits the training data more closely), but test AUC peaks around `C = 1.0` and then declines at `C = 10` and `C = 100`. This is overfitting made visible in a single metric: beyond a certain point, extra flexibility improves the fit to training data while making generalisation to unseen data slightly worse.
 
-### Experiment 2: AUC vs. test set size
+#### Experiment 2: AUC vs. test set size
 
 Still on Breast Cancer, fixing `C = 1.0` and varying the held-out proportion:
 
@@ -54,7 +91,7 @@ Still on Breast Cancer, fixing `C = 1.0` and varying the held-out proportion:
 
 The very small test set (`test_size = 0.1`, only 57 patients) produces the highest AUC of the whole sweep, not because the model is actually better, but because a smaller sample gives a noisier, less reliable estimate that happened to land high here. Larger, more stable test sets converge toward a more trustworthy figure in the low-to-mid 0.98-0.99 range.
 
-### Experiment 3: R2 vs. train/test split size
+#### Experiment 3: R2 vs. train/test split size
 
 Switching to a regression setting (the Diabetes dataset, predicting disease progression from patient measurements) with plain `LinearRegression`:
 
@@ -67,7 +104,7 @@ Switching to a regression setting (the Diabetes dataset, predicting disease prog
 
 Train R2 stays fairly flat (around 0.53-0.57) regardless of split size, but test R2 fluctuates more (0.33-0.44), again reflecting that a smaller held-out set gives a noisier estimate of true generalisation performance.
 
-### Experiment 4: R2 vs. model complexity (polynomial degree)
+#### Experiment 4: R2 vs. model complexity (polynomial degree)
 
 Fixing an 80/20 split and increasing the degree of polynomial features fed into `LinearRegression`:
 
@@ -79,7 +116,7 @@ Fixing an 80/20 split and increasing the degree of polynomial features fed into 
 
 This is the clearest result in the whole set of experiments. Train R2 rises steadily as the model is given more flexibility (more polynomial terms to fit the training data), reaching 0.887 at degree 3, but test R2 collapses to **-5.63**, far worse than a model that simply predicted the mean every time (which would score 0). This is textbook overfitting: a degree-3 polynomial on a small, 10-feature dataset has enough capacity to fit noise in the training data that has no relationship to the test data at all.
 
-### Experiment 5: R2 vs. Ridge regularization strength (alpha), at degree 2
+#### Experiment 5: R2 vs. Ridge regularization strength (alpha), at degree 2
 
 Holding the degree-2 polynomial features fixed and adding `Ridge` regularization:
 
@@ -93,7 +130,7 @@ Holding the degree-2 polynomial features fixed and adding `Ridge` regularization
 
 A small amount of regularization (`alpha = 0.1`) actually improves test R2 over the unregularized degree-2 model, by shrinking the coefficients that were fitting noise. But pushed too far (`alpha = 10` or `100`), the model becomes too constrained to fit the real signal either, and both train and test R2 collapse toward 0. This demonstrates that regularization strength is itself a parameter with a sweet spot, not something to maximise or minimise blindly.
 
-## Reflection on the learning outcome
+### Reflection on the learning outcome
 
 These experiments make a professional and ethical point concrete: AUC and R2 are not fixed properties of a dataset, they are properties of a specific model, trained with specific parameters, evaluated on a specific split. The same Breast Cancer data produced an AUC of 0.9946 when evaluated on training data, and a more honest 0.97-0.99 range with a proper test split, a difference that could mislead a clinical stakeholder if the methodological detail (same-data evaluation) were omitted from a report. Similarly, the polynomial regression experiment shows a model that looks excellent by one number (train R2 = 0.887) and catastrophic by the number that actually matters for deployment (test R2 = -5.63).
 
