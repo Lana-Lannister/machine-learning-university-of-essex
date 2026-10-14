@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 import { getAllWeekSlugs, getAllWeeks, getWeekBySlug } from "@/lib/weeks";
 import { mdxComponents } from "@/components/mdx-components";
 import StatusBadge from "@/components/StatusBadge";
@@ -45,7 +46,11 @@ export default async function WeekPage({
       </header>
 
       <section className="prose prose-zinc dark:prose-invert max-w-none">
-        <MDXRemote source={content} components={mdxComponents} />
+        <MDXRemote
+          source={content}
+          components={mdxComponents}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+        />
       </section>
 
       {frontmatter.links.length > 0 && (
