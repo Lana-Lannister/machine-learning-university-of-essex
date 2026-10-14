@@ -11,6 +11,10 @@ export function generateStaticParams() {
   return getAllWeekSlugs().map((slug) => ({ slug }));
 }
 
+// All slugs are known at build time via generateStaticParams, so this route
+// is fully static; opt out of the experimental instant-navigation validator.
+export const instant = false;
+
 export default async function WeekPage({
   params,
 }: PageProps<"/weeks/[slug]">) {

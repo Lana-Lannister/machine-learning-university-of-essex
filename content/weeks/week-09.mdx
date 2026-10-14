@@ -1,11 +1,73 @@
 ---
 week: 9
-title: "Week 9"
+title: "Week 9: CNN Object Recognition and Its Ethical Implications"
 status: "complete"
-summary: "Content for Week 9 has not been added yet."
-topics: []
-links: []
+summary: "CNN model activity on CIFAR-10 object recognition, examining where the model succeeds and fails, and the ethical and social implications of deploying convolutional neural networks for visual classification."
+topics: ["Convolutional neural networks", "Image classification", "CIFAR-10", "AI ethics", "Dataset challenges"]
+links: [
+  { label: "cnn_object_recognition.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-09/cnn_object_recognition.ipynb", type: "notebook" }
+]
 images: []
 ---
 
-_Content for this week has not been added yet. Check back once Week 9 materials are released._
+## Assessment brief
+
+Read the Wall (2019) article and record your thoughts on the ethical and social implications of CNN technology.
+
+Run the `Convolutional Neural Networks (CNN) - Object Recognition.ipynb` notebook and review different sections of the algorithm. Change the input image for prediction by changing the value of `plt.imshow(x_test[16])`, from 16 to a value of your choice (1-15), and see whether the model predicts correctly.
+
+**Learning outcomes**
+
+- Articulate the legal, social, ethical and professional issues faced by machine learning professionals.
+- Understand the applicability and challenges associated with different datasets for the use of machine learning algorithms.
+
+## Walkthrough
+
+### Dataset and preprocessing
+
+The notebook uses CIFAR-10, 60,000 32x32 RGB images across 10 classes (airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck), split into 50,000 training and 10,000 test images. Pixel values are scaled from the 0-255 range to 0-1, and labels are one-hot encoded with `to_categorical`. The training set is further split into 40,000 training images and a 10,000-image validation set, which is used for early stopping rather than final evaluation, keeping the test set untouched until the model is finalised.
+
+### Model architecture
+
+The network is a small CNN: a convolutional layer (32 filters, 4x4 kernel, ReLU) followed by max pooling, a second convolutional and pooling pair, a flatten layer, a 256-unit dense hidden layer, and a 10-unit softmax output layer, 225,610 trainable parameters in total. It is compiled with categorical cross-entropy loss and the Adam optimiser, and trained with early stopping on validation loss (patience of 2 epochs) so training halts once the model stops improving on unseen validation data rather than overfitting the training set.
+
+### Training and evaluation
+
+Training stopped itself after 9 epochs: training accuracy climbed steadily from 34.7% to 77.2%, while validation loss bottomed out at epoch 7 (1.069) and then started rising again for two consecutive epochs, triggering early stopping. Final test set performance was **61.9% accuracy** (test loss 1.22), evaluated once, after training, on the held-out 10,000 test images.
+
+The per-class breakdown shows the overall accuracy figure hides large differences between classes:
+
+| Class | Precision | Recall | F1 |
+|-------|-----------|--------|-----|
+| airplane | 0.67 | 0.69 | 0.68 |
+| automobile | 0.77 | 0.77 | 0.77 |
+| bird | 0.50 | 0.57 | 0.53 |
+| cat | 0.36 | 0.62 | 0.46 |
+| deer | 0.65 | 0.48 | 0.55 |
+| dog | 0.49 | 0.49 | 0.49 |
+| frog | 0.77 | 0.61 | 0.68 |
+| horse | 0.87 | 0.50 | 0.64 |
+| ship | 0.73 | 0.77 | 0.75 |
+| truck | 0.73 | 0.68 | 0.71 |
+
+**cat** has by far the weakest precision (0.36): the confusion matrix shows 338 true dogs were predicted as cats, and 144 true cats were predicted as dogs, a strong mutual confusion between the two classes that is not matched anywhere else in the matrix. **horse** shows the opposite pattern: high precision (0.87) but the lowest recall tied with cat (0.50), meaning that when the model does say "horse" it is usually right, but it frequently misclassifies real horses as something else (mainly cat and dog).
+
+### Changing the prediction index
+
+The notebook's own example at index 16 predicts **dog**, and the true label is **dog**, a correct prediction. Changing the index to **7** (within the requested 1-15 range) also predicts correctly: **frog**, matching the true label **frog**. Both chosen indices happened to fall on classes the model handles comparatively well (dog has moderate performance, frog has strong precision/recall), which is itself a small illustration of the per-class variation above: picking an index from the cat or horse classes instead would be noticeably more likely to surface a misclassification, given their much weaker recall.
+
+### A bug worth flagging
+
+Running the notebook as provided surfaces a real issue: the line `predictions = np.argmax(model.predict(x_test), axis=-1)` raises `NameError: name 'np' is not defined` if the cells are not executed strictly in the original top-to-bottom order from a fresh kernel, since `numpy` is only aliased to `np` in an earlier cell. This is a common and easy-to-miss notebook pitfall: a notebook's cells can be run out of order or a kernel can be restarted mid-session, silently leaving later cells dependent on state that no longer exists. It is a small but genuine professional lesson: reproducibility of a machine learning result depends on the full execution order being documented and followed, not just on the code itself being correct.
+
+## Reflection on the ethical and social implications of CNN technology
+
+CIFAR-10 is a clean, balanced, low-resolution benchmark dataset, each of the 10 classes has exactly 6,000 images, and the classes themselves (animals, vehicles) carry little social sensitivity. That combination is precisely why this small CNN reaches a moderate 61.9% test accuracy while still making systematic, class-dependent errors: the cat/dog confusion documented above is not random noise, it reflects the model learning low-level visual features (fur texture, four-legged silhouettes, ear and body shape) that genuinely overlap between those two classes more than with ships or trucks.
+
+The ethical and social implications become serious the moment this same technology, a convolutional architecture learning statistical visual patterns from labelled training data, is applied to higher-stakes or less balanced data: facial recognition, medical imaging, or content moderation. Three concerns follow directly from what this small CIFAR-10 exercise demonstrates:
+
+1. **Class imbalance in the real world is the norm, not the exception.** CIFAR-10's 6,000-images-per-class balance is an artificial convenience; real-world datasets used for tasks like facial recognition are frequently imbalanced across demographic groups, which produces exactly the kind of systematic, class-dependent error rate seen here between cats and dogs, except across people rather than animal classes, with consequences that are not merely inconvenient but potentially discriminatory.
+2. **A model's apparent accuracy figure hides where it fails.** An overall test accuracy of 61.9% sounds like a single, modest number, but the per-class table above shows precision ranging from 0.36 (cat) to 0.87 (horse), a huge spread hidden by the headline figure. Reporting only overall accuracy, without the per-class detail, is professionally and ethically significant when the model's decisions affect specific groups unevenly.
+3. **Reproducibility and auditability are not optional.** The `NameError` bug above is trivial here, but it illustrates a broader professional obligation: a model whose training process cannot be reliably reproduced from a documented notebook or pipeline cannot be meaningfully audited later if its deployment causes harm, which is a legal and professional liability, not just an inconvenience.
+
+Taken together, this activity reinforces that the applicability of a CNN, or any machine learning algorithm, is never independent of the dataset it is trained on: the same architecture that performs moderately and unevenly on a small, balanced, low-stakes benchmark like CIFAR-10 can produce discriminatory or unaccountable outcomes when applied, without equivalent scrutiny, to unbalanced, high-stakes, real-world image data.
