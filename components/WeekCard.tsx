@@ -19,6 +19,11 @@ export default function WeekCard({ week }: { week: Week }) {
       <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-50">
         {frontmatter.title}
       </h3>
+      {frontmatter.assessmentCount && frontmatter.assessmentCount > 1 && (
+        <span className="w-fit rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+          {frontmatter.assessmentCount} assessments
+        </span>
+      )}
       <p className="text-sm text-zinc-600 dark:text-zinc-300">{frontmatter.summary}</p>
       <span className="mt-auto text-sm font-medium text-indigo-600 group-hover:underline dark:text-indigo-400">
         View week →

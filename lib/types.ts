@@ -28,6 +28,7 @@ export interface WeekFrontmatter {
   topics: string[];
   links: WeekLink[];
   images?: WeekImage[];
+  assessmentCount?: number;
 }
 
 export interface Week {

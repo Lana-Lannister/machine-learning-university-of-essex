@@ -39,6 +39,11 @@ export default async function WeekPage({
             {frontmatter.title}
           </h1>
           <StatusBadge status={frontmatter.status} />
+          {frontmatter.assessmentCount && frontmatter.assessmentCount > 1 && (
+            <span className="rounded-full bg-zinc-100 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+              {frontmatter.assessmentCount} assessments
+            </span>
+          )}
         </div>
         {frontmatter.topics.length > 0 && (
           <div className="flex flex-wrap gap-2">

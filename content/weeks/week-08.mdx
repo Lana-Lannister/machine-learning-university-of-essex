@@ -1,14 +1,19 @@
 ---
 week: 8
-title: "Week 8: The Risks of Large Language Models"
+title: "Week 8: The Risks of Large Language Models, and Gradient Descent"
 status: "complete"
-summary: "Discussion forum initial post on Hutson's (2021) account of GPT-3, examining the gap between fluent output and genuine understanding, and the documented harms of large language models."
-topics: ["Large language models", "AI ethics", "Discussion forum", "GPT-3"]
-links: []
+summary: "Two assessments this week: a discussion forum initial post on Hutson's (2021) account of GPT-3 and the harms of large language models, and the gradient descent and cost function notebook assessment."
+topics: ["Large language models", "AI ethics", "Discussion forum", "GPT-3", "Gradient descent"]
+assessmentCount: 2
+links: [
+  { label: "gradient_descent_cost_function.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-08/gradient_descent_cost_function.ipynb", type: "notebook" }
+]
 images: []
 ---
 
-## Initial Post
+## Assessment 1: Discussion Forum, The Risks of Large Language Models
+
+### Initial Post
 
 _by Lana Menezes Fidelis, Sunday, 13 September 2026, 2:10 PM_
 
@@ -20,7 +25,7 @@ The risks intensify in open-ended or creative use. Bender et al. (2021) argue th
 
 Given this, I would argue the benefits of AI writers are consistently oversold relative to the depth and diversity of documented harms, and that current safeguards remain reactive rather than preventive.
 
-### References
+#### References
 
 Bender, E.M., Gebru, T., McMillan-Major, A. and Shmitchell, S. (2021) 'On the dangers of stochastic parrots: Can language models be too big?', in *Conference on Fairness, Accountability, and Transparency (FAccT '21)*. Available at: https://doi.org/10.1145/3442188.3445922 (Accessed: 13 September 2026).
 
@@ -31,3 +36,53 @@ Floridi, L. and Chiriatti, M. (2020) 'GPT-3: Its nature, scope, limits, and cons
 Hutson, M. (2021) 'The language machines', *Nature*, 591, pp. 22-25.
 
 McGuffie, K. and Newhouse, A. (2020) *The radicalization risks of GPT-3 and advanced neural language models*. Preprint. Available at: https://arxiv.org/abs/2009.06807 (Accessed: 13 September 2026).
+
+## Assessment 2: Gradient Descent and Cost Function
+
+### Assessment brief
+
+Read the Mayo (2017) article and then run the tutorial `gradient_descent_cost_function.ipynb`. Change the iteration number and `learning_rate` and observe how cost decreases. Be prepared to discuss findings during the seminar.
+
+**Learning outcome**
+
+- Understand the applicability and challenges associated with different datasets for the use of machine learning algorithms.
+
+### Walkthrough
+
+The notebook implements gradient descent from scratch on a tiny toy dataset (`x = [1,2,3,4,5]`, `y = [5,7,9,11,13]`, i.e. the true relationship is `y = 2x + 3`), fitting a line `y = mx + b` by repeatedly computing the mean squared error cost, its gradient with respect to `m` and `b`, and stepping both parameters against that gradient scaled by `learning_rate`.
+
+Running it with the provided settings (`iterations = 100`, `learning_rate = 0.08`) shows cost falling steadily: from 89.0 at iteration 0, to 1.26 by iteration 20, to 0.12 by iteration 40, down to 0.004 by the final iteration, with `m` and `b` converging toward the true values of 2 and 3.
+
+#### Varying the learning rate (iterations fixed at 100)
+
+| learning_rate | Final cost | Outcome |
+|---------------|-----------|---------|
+| 0.001 | 1.647 | Converging, but far too slowly to finish in 100 iterations |
+| 0.01 | 0.480 | Converging steadily, still not fully settled |
+| 0.08 | 0.004 | Converges cleanly (the provided setting) |
+| 0.1 | ~5.97 x 10^28 | Diverges: cost explodes instead of shrinking |
+| 0.5 | astronomically large | Diverges immediately and catastrophically |
+| 0.9 | astronomically large | Diverges immediately and catastrophically |
+
+Cost decreases smoothly up to `learning_rate = 0.08`, but at `0.1` and above the update step overshoots the minimum so badly that each iteration makes `m` and `b` larger instead of smaller, and the cost blows up to astronomical, non-finite values within a handful of iterations. The gap between "converges" (0.08) and "explodes" (0.1) is narrow, which matches the notebook's own warning that a high learning rate risks missing the global minimum entirely.
+
+#### Varying the number of iterations (learning_rate fixed at 0.08)
+
+| iterations | Final cost |
+|------------|-----------|
+| 5 | 36.35 |
+| 20 | 1.52 |
+| 50 | 0.065 |
+| 100 | 0.004 |
+| 500 | ~0.000 (fully converged, m=2.0000, b=3.0000) |
+| 1000 | ~0.000 (no further improvement over 500) |
+
+Cost keeps falling as iterations increase, but with diminishing returns: the jump from 100 to 500 iterations essentially finishes the job, while 500 to 1000 iterations makes no further difference, since the parameters have already reached the true values. This shows that for a given learning rate there is a point beyond which more iterations stop being useful, the goal, as the notebook states, is reaching minimum cost with minimum iterations, not simply running for as long as possible.
+
+#### High learning rate with few iterations
+
+Combining a higher learning rate with very few iterations (e.g. `learning_rate = 0.1-0.3`, `iterations = 5-20`) consistently produced wildly growing cost values rather than a controlled descent, in some cases reaching costs in the billions or higher within just 10-20 steps. This is the overshoot scenario the notebook's markdown explicitly warns about: a high learning rate takes steps so large that each update jumps past the minimum and lands further from it than before, rather than closer.
+
+### Reflection on the learning outcome
+
+This small, clean synthetic dataset (`y = 2x + 3` plus no noise) makes the mechanics of gradient descent easy to see, but it also hides a dataset-dependent challenge that the notebook does not raise directly: the stable range of learning rates found here (up to about 0.08-0.09) is specific to the scale of this particular `x` and `y` data. If the input features were on a much larger scale (hundreds or thousands rather than single digits), the same learning rate of 0.08 would very likely diverge immediately, because the gradient itself scales with the magnitude of the inputs. This is precisely why feature scaling (standardising or normalising inputs before training) matters in practice: without it, a learning rate that works well on one dataset can silently blow up on another with differently scaled features, and the "right" learning rate is not a fixed number but a property of the specific dataset being fit.

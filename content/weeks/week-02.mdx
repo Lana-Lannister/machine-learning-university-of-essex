@@ -1,11 +1,143 @@
 ---
 week: 2
-title: "Week 2"
+title: "Week 2: Systemic Risk, Traceability, and the Fourth Industrial Revolution"
 status: "complete"
-summary: "Content for Week 2 has not been added yet."
-topics: []
+summary: "Three discussion forum peer responses: to Rafaela Cavalcante on counterfeit automotive safety parts and traceability, to Patrick Tosto on the CrowdStrike outage and software deployment resilience, and to Ali Nahhas on the Synnovis ransomware attack and healthcare data continuity."
+topics: ["Supply chain traceability", "Computer vision", "Blockchain", "Counterfeit detection", "Software resilience", "Healthcare cybersecurity", "Industry 5.0", "Discussion forum", "ML ethics"]
 links: []
 images: []
 ---
 
-_Content for this week has not been added yet. Check back once Week 2 materials are released._
+## Thread 1: Rafaela Cavalcante, Counterfeit Automotive Parts
+
+### Initial Post (for context)
+
+_by Rafaela Cavalcante, Saturday, 1 August 2026, 12:08 PM_
+
+The global counterfeit market has reached an estimated value of USD 467 billion, representing approximately 2.3% of global trade (OECD, 2025). Among the affected industries, automotive manufacturing represents a particularly critical case because counterfeit components can directly compromise consumer safety. The increasing presence of fake airbags, brake components and other safety-critical parts demonstrates how failures in information systems supporting supply chain traceability can create significant operational and societal consequences.
+
+A specific example is the growing problem of counterfeit automotive safety parts entering legitimate markets, including fraudulent airbag components that have exposed consumers to severe risks (Felton, 2026). In this case, the failure was not only caused by counterfeit production networks but also by the inability of existing information systems to provide accurate, accessible and reliable information about component origin and authenticity across complex global supply chains.
+
+Counterfeiters exploit fragmented supply networks by shipping small quantities of components that are difficult to detect at customs and completing assembly locally, often using digital platforms to reach final consumers (OECD, 2025). This creates challenges for organisations that depend on disconnected databases, inconsistent records and limited visibility across suppliers and distributors. Without effective traceability systems, companies face difficulties identifying affected products, performing recalls and assigning responsibility.
+
+The impacts extend beyond financial losses. Consumers face potentially life-threatening risks, while manufacturers experience reputational damage, loss of trust and increased operational costs. Zhang, Zhang and Feng (2025) highlight that counterfeit activities undermine authentic producers by reducing competitiveness and damaging consumer confidence.
+
+Artificial intelligence can support counterfeit detection through computer vision and machine learning. Rafaela noted she was involved in developing a computer vision-based project with Mercedes-Benz to detect fake automotive parts and reduce bottlenecks in manual inspection processes, but that this experience highlighted practical challenges related to dataset quality, image variability and fragmented information sources. Real-world investigations often involve incomplete images, different perspectives and limited labelled data, which directly affects machine learning performance.
+
+This case demonstrates that AI solutions depend not only on advanced algorithms but also on robust information systems and reliable datasets. When these foundations fail, the consequences can extend from operational inefficiency to significant risks for customers and society.
+
+#### References (initial post)
+
+Felton, R. (2026) 'Counterfeit Air-Bag Parts Are Killing U.S. Drivers, and the Government Can't Stop It', *The Wall Street Journal*, 9 July. Available at: https://www.wsj.com/business/autos/counterfeit-air-bag-parts-deaths-regulators-6eddfdd4 (Accessed: 1 August 2026).
+
+OECD (2025) *Mapping Global Trade in Fakes 2025: Global Trends and Enforcement Challenges*. Paris: OECD Publishing. Available at: https://doi.org/10.1787/94d3b29f-en (Accessed: 1 August 2026).
+
+Zhang, X., Zhang, X. and Feng, L. (2025) 'Fight Against Counterfeits: Traditional Anticounterfeiting Versus Blockchain Adoption', *IEEE Transactions on Engineering Management*, 72, pp. 4320-4332. doi:10.1109/TEM.2025.3631746.
+
+### Peer Response
+
+_by Lana Menezes Fidelis, Monday, 10 August 2026, 8:13 PM_
+
+Hi Rafaela! This is such a great example to bring in, especially because you're not just analysing the problem from the outside, you're actually building part of the solution with the Mercedes-Benz project. That gives your post a nice double angle: the traceability failure that let fake airbags into the market in the first place, and the detection systems now trying to catch what slipped through.
+
+It got me thinking about what could have stopped this further upstream, before it became a detection problem at all. Blockchain traceability comes up a lot in this space, and your Zhang, Zhang and Feng (2025) reference points that way too. Kshetri (2021) makes a good case for it: a shared, tamper-proof ledger across manufacturers, distributors and customs would remove exactly the kind of "disconnected databases" issue you mentioned. But Kouhizadeh, Saberi and Sarkis (2021) raise a fair concern: blockchain traceability only really works if everyone in the chain joins in, and smaller component suppliers often don't have the money or motivation to bother. That might explain why the fragmentation you describe hasn't gone away even though the technology already exists.
+
+There's also a regulatory side worth mentioning. Fooladvandi and Kalva (2022) found that RFID tracking cut down counterfeit surgical implants in the US once regulators actually required unique IDs at every sale point, not just left it up to companies to volunteer. Something similar for automotive safety parts might have caught these fake airbags before anyone got hurt.
+
+#### References (peer response)
+
+Fooladvandi, F. and Kalva, N. (2022) 'RFID-enabled traceability in medical device supply chains: a systematic review', *International Journal of Production Economics*, 245, 108394.
+
+Kouhizadeh, M., Saberi, S. and Sarkis, J. (2021) 'Blockchain technology and the sustainable supply chain: theoretical analysis and barriers to adoption', *International Journal of Production Economics*, 231, 107831.
+
+Kshetri, N. (2021) 'Blockchain and sustainable supply chain management in developing countries', *International Journal of Information Management*, 60, 102376.
+
+## Thread 2: Patrick Tosto, Systemic Risk and the CrowdStrike Outage
+
+### Initial Post (for context)
+
+_by Patrick Tosto, Wednesday, 29 July 2026, 4:15 PM_
+
+Schwab (2016) argues that what distinguishes the Fourth Industrial Revolution from the digital revolution preceding it is not any single technology but three properties combined: velocity, scope and systems impact. In software engineering, the sector in which I work, the third has reshaped practice most profoundly. Continuous delivery has collapsed the distance between a developer committing a change and that change running on millions of machines, so the automation granting us velocity also guarantees a defect propagates at machine speed. My experience is that our governance has matured considerably more slowly than our capacity to ship.
+
+The CrowdStrike incident of 19 July 2024 demonstrates this. A content update defined twenty-one input parameter fields while the code consuming it supplied only twenty, and reading a twenty-first value that was never provided produced an out-of-bounds error that crashed the operating system (CrowdStrike, 2024). The instructive part is not the programming mistake, which is mundane, but its passage through the safeguards: CrowdStrike (2024) records that the mismatch evaded multiple layers of build validation and testing, surviving release testing, stress testing and several successful field deployments. Fritz et al. (2025) report that 8.5 million Windows machines were affected, each needing manual recovery, and cite an estimated 5.4 billion dollars of losses to Fortune 500 companies. Aviation, banking and hospital operations failed simultaneously, which is Schwab's systems impact expressed as an outage.
+
+The deeper issue is concentration. Fritz et al. (2025) show that creating a software dependency imposes negative externalities on parties who never consented to the risk, and that common protective heuristics prove ineffective against contagion of this kind. Hospitals grounded by a security update had made no decision about that vendor's release process, yet inherited its failure modes completely.
+
+Industry 5.0 is analytically useful here rather than merely aspirational. Metcalf (2024) is careful to distinguish it from a further technological step, describing it instead as a corrective to a dependence on technology that had grown disproportionate and was beginning to harm workers and the societies around them, and naming human-centricity, sustainability and resilience as the three elements the European Commission places at its core. Read against CrowdStrike, resilience becomes a design requirement rather than a virtue: staged rollouts, independently verified update paths and recovery procedures assuming the vendor will eventually be the fault. Schwab (2016) maintains that disruption is not an exogenous force beyond human control, and the corollary for my sector is that deployment velocity is a choice we make rather than a condition we inherit.
+
+#### References (initial post)
+
+CrowdStrike (2024) *External technical root cause analysis - Channel File 291*. Available at: https://www.crowdstrike.com/wp-content/uploads/2024/08/Channel-File-291-Incident-Root-Cause-Analysis-08.06.2024.pdf (Accessed: 29 July 2026).
+
+Fritz, C., Georg, C.-P., Mele, A. and Schweinberger, M. (2025) *Vulnerability webs: systemic risk in software networks*. arXiv:2402.13375. Available at: https://arxiv.org/pdf/2402.13375 (Accessed: 29 July 2026).
+
+Metcalf, G.S. (2024) 'An introduction to Industry 5.0: history, foundations, and futures', in Nousala, S., Metcalf, G. and Ing, D. (eds) *Industry 4.0 to Industry 5.0: explorations in the transition from a techno-economic to a socio-technical future*. Singapore: Springer, pp. 1-30. Available at: https://doi.org/10.1007/978-981-99-9730-5_1 (Accessed: 29 July 2026).
+
+Schwab, K. (2016) *The Fourth Industrial Revolution: what it means, how to respond*. Available at: https://www.weforum.org/stories/technological-innovation/the-fourth-industrial-revolution-what-it-means-and-how-to-respond/ (Accessed: 29 July 2026).
+
+### Peer Response
+
+_by Lana Menezes Fidelis, Monday, 10 August 2026, 8:05 PM_
+
+Patrick, your framing of resilience as "a design requirement rather than a virtue" is the strongest point in your post, and it is worth pressing on what concretely would have satisfied that requirement in the CrowdStrike case.
+
+The root cause report you cite shows the defective Channel File passed CrowdStrike's own validation pipeline; the failure was therefore not a testing gap but a rollout-strategy gap. Humble and Farley (2010) argue that continuous delivery is only safe when paired with progressive, canary-style deployment, so that a defect surfaces on a small, monitored subset of machines before global release. CrowdStrike pushed a kernel-level content update to its entire fleet simultaneously, which is precisely the tightly-coupled, all-at-once configuration Perrow (1984) identifies as the structural precondition for a "normal accident": when components are interdependent, and change propagates instantly, a single local error becomes a system-wide event almost by design.
+
+Leveson (2011) would add that this is a control problem, not a component problem; kernel-level agents from a single vendor create a single point of failure across otherwise diverse client organisations, which argues for enforced diversity or sandboxing of update channels rather than trusting one vendor's internal QA indefinitely. Hollnagel's (2014) Safety-II perspective is also relevant here: rather than only trying to eliminate defects, organisations should build in the capacity to detect and contain them early, which staged rollout and automated rollback both provide.
+
+Regulatory pressure may be needed alongside technical fixes, since, as your Fritz et al. citation shows, hospitals bore costs from a vendor decision they had no part in.
+
+#### References (peer response)
+
+Humble, J. and Farley, D. (2010) *Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation*. Boston: Addison-Wesley.
+
+Hollnagel, E. (2014) *Safety-I and Safety-II: The Past and Future of Safety Management*. Farnham: Ashgate.
+
+Leveson, N. (2011) *Engineering a Safer World: Systems Thinking Applied to Safety*. Cambridge, MA: MIT Press.
+
+Perrow, C. (1984) *Normal Accidents: Living with High-Risk Technologies*. New York: Basic Books.
+
+## Thread 3: Ali Nahhas, Synnovis and Healthcare Data Continuity
+
+### Initial Post (for context)
+
+_by Ali Nahhas, Monday, 10 August 2026, 6:27 PM_
+
+Healthcare is a useful sector for examining the tension between Industry 4.0 and Industry 5.0 because digital integration can improve care while also creating new points of failure. Metcalf (2024) argues that Industry 5.0 develops partly as a response to the limitations of Industry 4.0, especially its focus on efficiency, automation and interconnected technologies. In healthcare, that shift matters because resilience is not only an IT concern. It can directly affect whether clinicians make safe decisions.
+
+The 2024 ransomware attack on Synnovis, a pathology provider supporting NHS organisations in London, shows this clearly. The disruption spread beyond hospitals to 194 GP practices in southeast London, restricting pathology services and delaying diagnostic processes (Rajput, Darzi and Ghafur, 2025). What stands out is that the failure was not confined to one computer system. Digital dependence had linked laboratories, clinicians and patients into a shared information chain, so the loss of one supplier's systems became a clinical problem.
+
+This exposes a weakness in a purely Industry 4.0 approach. Ghobakhloo et al. (2024) argue that Industry 5.0 should build on digitalisation while placing greater emphasis on resilience and human-centred systems. Synnovis suggests healthcare needs this balance. Faster automated workflows are valuable, but they should degrade safely when systems fail. That could mean independent backups, tested manual procedures, alternative laboratory capacity and clearer responsibility across third-party suppliers.
+
+There is also a machine-learning issue. Healthcare discussions often focus on whether datasets are large, representative and accurate. Synnovis highlights another requirement: data must remain available and trustworthy during disruption. A highly accurate model has little practical value if clinicians cannot access the data feeding it. Industry 5.0 therefore means treating data continuity as part of patient safety, rather than assuming that more connected technology automatically produces a better healthcare system.
+
+#### References (initial post)
+
+Ghobakhloo, M., Amoozad Mahdiraji, H., Iranmanesh, M. and Jafari-Sadeghi, V. (2024) 'From Industry 4.0 digital manufacturing to Industry 5.0 digital society: a roadmap toward human-centric, sustainable, and resilient production', *Information Systems Frontiers*.
+
+Metcalf, G.S. (2024) 'An introduction to Industry 5.0: history, foundations, and futures', in Nousala, S., Metcalf, G. and Ing, D. (eds.) *Industry 4.0 to Industry 5.0: Explorations in the Transition from a Techno-Economic to a Socio-Technical Future*. Singapore: Springer, pp. 1-29.
+
+Rajput, K., Darzi, A. and Ghafur, S. (2025) 'Overlooked and under-reported: the impact of cyberattacks on primary care in the UK National Health Service', *The Lancet Digital Health*, 7(7), 100879.
+
+### Peer Response
+
+_by Lana Menezes Fidelis, Monday, 10 August 2026, 8:08 PM_
+
+Ali, the point that "data must remain available and trustworthy during disruption" is a sharp reframing of the usual ML dataset debate, and it deserves extending toward what specifically could have prevented Synnovis from cascading across 194 GP practices.
+
+The attack succeeded partly because a single pathology provider had become a structural single point of failure for an entire region's diagnostics. Perrow's (1984) concept of "normal accidents" is relevant: when components are tightly coupled and interdependent, a localised fault propagates system-wide almost inevitably, and healthcare's move toward centralised third-party providers under Industry 4.0 increased that coupling without a matching increase in redundancy. Coventry and Branley (2018) note that healthcare is a disproportionate target for ransomware precisely because clinical urgency pressures organisations toward paying quickly or restoring service without full remediation, which weakens the incentive to invest in the manual fallback procedures you mention.
+
+A concrete preventive measure is the NIS Regulations' requirement that operators of essential services maintain incident response and business continuity plans (Department for Science, Innovation and Technology, 2024); Rajput, Darzi and Ghafur (2025) suggest enforcement and auditing of these obligations was inconsistent across NHS suppliers. Kruse et al. (2017) also argue that healthcare cybersecurity investment lags behind sectors like finance, so contractual requirements on third-party suppliers, including mandated failover laboratory capacity, may matter more than technical fixes alone.
+
+This links back to your ML point: model accuracy assumes a data pipeline that Industry 5.0 requires us to treat as fragile by default.
+
+#### References (peer response)
+
+Coventry, L. and Branley, D. (2018) 'Cybersecurity in healthcare: a narrative review of trends, threats and ways forward', *Maturitas*, 113, pp. 48-52.
+
+Department for Science, Innovation and Technology (2024) *Network and Information Systems (NIS) Regulations 2018: post-implementation review*. London: UK Government.
+
+Kruse, C.S., Frederick, B., Jacobson, T. and Monticone, D.K. (2017) 'Cybersecurity in healthcare: a systematic review of modern threats and trends', *Technology and Health Care*, 25(1), pp. 1-10.
+
+Perrow, C. (1984) *Normal Accidents: Living with High-Risk Technologies*. New York: Basic Books.

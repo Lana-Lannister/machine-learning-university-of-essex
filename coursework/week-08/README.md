@@ -5,3 +5,7 @@ Place this week's raw artifacts here: Jupyter notebooks (`.ipynb`), datasets, sc
 These files are the source of truth and are linked from `content/weeks/week-08.mdx` via their GitHub blob URL (e.g. `https://github.com/<user>/<repo>/blob/main/coursework/week-08/notebook.ipynb`), since GitHub renders notebooks natively.
 
 If a file needs to be directly downloadable or embedded from the live site (e.g. a PDF report or a results screenshot), put a copy in `public/weeks/week-08/` instead, see that folder's note.
+
+## Contents
+
+- `gradient_descent_cost_function.ipynb`: simple gradient descent implementation (NumPy only) fitting a line to a tiny toy dataset, used to observe the effect of `iterations` and `learning_rate` on cost.

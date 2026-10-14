@@ -1,11 +1,100 @@
 ---
 week: 11
-title: "Week 11"
+title: "Week 11: Model Performance Measurement (AUC and R2)"
 status: "complete"
-summary: "Content for Week 11 has not been added yet."
-topics: []
-links: []
+summary: "Unit 11 assessment running the model performance measurement notebook and varying regularization strength, train/test split size, and model complexity to observe their impact on AUC and R2."
+topics: ["AUC / ROC", "R2 score", "Regularization", "Overfitting", "Model evaluation", "ML ethics"]
+links: [
+  { label: "model_performance_measurement.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-11/model_performance_measurement.ipynb", type: "notebook" }
+]
 images: []
 ---
 
-_Content for this week has not been added yet. Check back once Week 11 materials are released._
+## Assessment brief
+
+Run the `model_Performance_Measurement.ipynb` file and change different parameters and observe its impact on AUC and R2 error.
+
+**Learning outcome**
+
+- Articulate the legal, social, ethical and professional issues faced by machine learning professionals.
+
+## Walkthrough
+
+### What the notebook covers
+
+The notebook is a reference tour of `scikit-learn`'s evaluation metrics rather than a single end-to-end model: confusion matrices, F1/accuracy/precision/recall (binary, multiclass, and multilabel), log loss, ROC AUC (binary, via the Breast Cancer dataset, and multiclass, via a one-vs-rest SVM on Iris), and the regression metrics MSE, MAE, and R2 on a small four-point toy example. Running it as provided surfaces a real bug: the cell that imports `accuracy_score` begins with a leading space (` from sklearn.metrics import accuracy_score`), which raises an `IndentationError` in a fresh kernel, since a module-level import cannot be indented. The fix is simply to remove the leading space.
+
+The notebook's own AUC example also has a methodological issue worth flagging before experimenting further: it fits `LogisticRegression` on the full Breast Cancer dataset and then computes AUC on that exact same data, with no held-out test set. That returned an AUC of **0.9946**, which is an optimistic, inflated number: it measures how well the model fits data it has already seen, not how well it would generalise to new patients. This is corrected in the experiments below by introducing a proper train/test split before computing AUC and R2.
+
+### Experiment 1: AUC vs. regularization strength (C), with a real held-out test set
+
+Using the Breast Cancer dataset with a 70/30 train/test split, varying `LogisticRegression`'s inverse regularization strength `C`:
+
+| C | Train AUC | Test AUC |
+|-----|-----------|----------|
+| 0.01 | 0.9850 | 0.9787 |
+| 0.1 | 0.9916 | 0.9873 |
+| 1.0 | 0.9953 | 0.9912 |
+| 10.0 | 0.9961 | 0.9904 |
+| 100.0 | 0.9966 | 0.9883 |
+
+Train AUC keeps climbing as `C` increases (less regularization, the model fits the training data more closely), but test AUC peaks around `C = 1.0` and then declines at `C = 10` and `C = 100`. This is overfitting made visible in a single metric: beyond a certain point, extra flexibility improves the fit to training data while making generalisation to unseen data slightly worse.
+
+### Experiment 2: AUC vs. test set size
+
+Still on Breast Cancer, fixing `C = 1.0` and varying the held-out proportion:
+
+| test_size | n_test | Test AUC |
+|-----------|--------|----------|
+| 0.1 | 57 | 0.9974 |
+| 0.2 | 114 | 0.9940 |
+| 0.3 | 171 | 0.9912 |
+| 0.5 | 285 | 0.9928 |
+| 0.7 | 399 | 0.9880 |
+
+The very small test set (`test_size = 0.1`, only 57 patients) produces the highest AUC of the whole sweep, not because the model is actually better, but because a smaller sample gives a noisier, less reliable estimate that happened to land high here. Larger, more stable test sets converge toward a more trustworthy figure in the low-to-mid 0.98-0.99 range.
+
+### Experiment 3: R2 vs. train/test split size
+
+Switching to a regression setting (the Diabetes dataset, predicting disease progression from patient measurements) with plain `LinearRegression`:
+
+| test_size | n_test | Train R2 | Test R2 |
+|-----------|--------|----------|---------|
+| 0.1 | 45 | 0.5302 | 0.3572 |
+| 0.2 | 89 | 0.5539 | 0.3322 |
+| 0.3 | 133 | 0.5539 | 0.3929 |
+| 0.5 | 221 | 0.5731 | 0.4377 |
+
+Train R2 stays fairly flat (around 0.53-0.57) regardless of split size, but test R2 fluctuates more (0.33-0.44), again reflecting that a smaller held-out set gives a noisier estimate of true generalisation performance.
+
+### Experiment 4: R2 vs. model complexity (polynomial degree)
+
+Fixing an 80/20 split and increasing the degree of polynomial features fed into `LinearRegression`:
+
+| degree | Train R2 | Test R2 |
+|--------|----------|---------|
+| 1 | 0.5539 | 0.3322 |
+| 2 | 0.6320 | 0.2907 |
+| 3 | 0.8870 | -5.6270 |
+
+This is the clearest result in the whole set of experiments. Train R2 rises steadily as the model is given more flexibility (more polynomial terms to fit the training data), reaching 0.887 at degree 3, but test R2 collapses to **-5.63**, far worse than a model that simply predicted the mean every time (which would score 0). This is textbook overfitting: a degree-3 polynomial on a small, 10-feature dataset has enough capacity to fit noise in the training data that has no relationship to the test data at all.
+
+### Experiment 5: R2 vs. Ridge regularization strength (alpha), at degree 2
+
+Holding the degree-2 polynomial features fixed and adding `Ridge` regularization:
+
+| alpha | Train R2 | Test R2 |
+|-------|----------|---------|
+| 0.0 (no ridge) | 0.6320 | 0.2907 |
+| 0.1 | 0.5524 | 0.3463 |
+| 1.0 | 0.4658 | 0.3412 |
+| 10.0 | 0.1765 | 0.1411 |
+| 100.0 | 0.0246 | 0.0188 |
+
+A small amount of regularization (`alpha = 0.1`) actually improves test R2 over the unregularized degree-2 model, by shrinking the coefficients that were fitting noise. But pushed too far (`alpha = 10` or `100`), the model becomes too constrained to fit the real signal either, and both train and test R2 collapse toward 0. This demonstrates that regularization strength is itself a parameter with a sweet spot, not something to maximise or minimise blindly.
+
+## Reflection on the learning outcome
+
+These experiments make a professional and ethical point concrete: AUC and R2 are not fixed properties of a dataset, they are properties of a specific model, trained with specific parameters, evaluated on a specific split. The same Breast Cancer data produced an AUC of 0.9946 when evaluated on training data, and a more honest 0.97-0.99 range with a proper test split, a difference that could mislead a clinical stakeholder if the methodological detail (same-data evaluation) were omitted from a report. Similarly, the polynomial regression experiment shows a model that looks excellent by one number (train R2 = 0.887) and catastrophic by the number that actually matters for deployment (test R2 = -5.63).
+
+This has direct legal and professional implications. A practitioner who reports only a training-set metric, only a headline AUC without disclosing test set size or regularization choices, or only the metric that makes a model look best, is not lying outright, but is making a choice about what to disclose that can be professionally misleading, particularly in regulated domains like healthcare or finance where a model's reported performance can influence real decisions about patients or customers. Full, honest model evaluation requires disclosing the train/test methodology, the parameters tried, and the metric's sensitivity to small changes in test set size, not just the single best-looking number.
