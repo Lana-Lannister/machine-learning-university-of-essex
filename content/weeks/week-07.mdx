@@ -1,11 +1,55 @@
 ---
 week: 7
-title: "Week 7"
+title: "Week 7: Perceptrons and the Multi-Layer Perceptron"
 status: "complete"
-summary: "Content for Week 7 has not been added yet."
-topics: []
-links: []
+summary: "Unit 7 assessment covering the single-layer perceptron, the perceptron learning rule applied to the AND operator, and a multi-layer perceptron trained with the sigmoid function and backpropagation on the XOR problem."
+topics: ["Perceptron", "Step function", "Sigmoid function", "Multi-layer perceptron", "Backpropagation", "XOR problem", "Dataset challenges"]
+links: [
+  { label: "simple_perceptron.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-07/simple_perceptron.ipynb", type: "notebook" },
+  { label: "perceptron_AND_operator.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-07/perceptron_AND_operator.ipynb", type: "notebook" },
+  { label: "multi-layer_perceptron.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-07/multi-layer_perceptron.ipynb", type: "notebook" }
+]
 images: []
 ---
 
-_Content for this week has not been added yet. Check back once Week 7 materials are released._
+## Assessment brief
+
+Watch this week's lecturecast and run the following Python activities in order, using the same method as in the Unit 2 activity, in Jupyter Notebook (downloaded from the Essex Software Hub):
+
+- `simple_perceptron.ipynb`
+- `perceptron_AND_operator.ipynb`
+- `multi-layer Perceptron.ipynb` (the Sigmoid Function)
+
+**Learning outcome**
+
+- Understand the applicability and challenges associated with different datasets for the use of machine learning algorithms.
+
+## Walkthrough
+
+### 1. Simple perceptron
+
+A single perceptron is implemented from scratch with NumPy: inputs `[45, 25]` are combined with a weight vector using the dot product (`inputs.dot(weights)`), and the result is passed through a hard step function that fires (returns 1) when the weighted sum is at least 1, otherwise returns 0.
+
+With weights `[0.7, 0.1]`, the sum is 34.0, well above the threshold, so the perceptron fires. Flipping the sign of the first weight to `[-0.7, 0.1]` changes the sum to -29.0, below the threshold, so it does not fire. This is the clearest possible illustration of what a single perceptron actually computes: a weighted vote followed by a hard yes/no cutoff, with no notion of "how confident" the answer is, only whether the weighted sum clears the line.
+
+### 2. Perceptron learning rule: the AND operator
+
+This notebook trains a perceptron to learn the AND truth table (`[[0,0],[0,1],[1,0],[1,1]]` to `[0,0,0,1]`) starting from weights `[0.0, 0.0]` and a learning rate of 0.1. The training loop repeatedly computes a prediction for each row, compares it to the target, and nudges each weight by `learning_rate * input * error` whenever the prediction is wrong, stopping once the total error across all four rows reaches zero.
+
+The weights converge to `[0.5, 0.5]` after five passes, and the trained perceptron correctly classifies all four AND cases (0, 0, 0, 1 for inputs `[0,0]`, `[0,1]`, `[1,0]`, `[1,1]`). AND is linearly separable (a single straight line can separate the single positive case from the three negative ones), which is exactly why a single perceptron with this simple update rule is able to learn it perfectly.
+
+### 3. Multi-layer perceptron and the sigmoid function
+
+This notebook first replaces the perceptron's hard step function with the sigmoid function, `1 / (1 + exp(-x))`, which squashes any real-valued input into a smooth (0, 1) output instead of a hard 0/1 cutoff. `sigmoid(0) = 0.5`, `sigmoid(40) ≈ 1.0`, and `sigmoid(-20.5) ≈ 1.25e-9`, showing the characteristic S-shaped saturation at both extremes.
+
+It then builds a small two-layer network (2 inputs to 3 hidden neurons to 1 output) to learn the **XOR** function, `[[0,0],[0,1],[1,0],[1,1]]` to `[0,1,1,0]`, which a single perceptron cannot learn because XOR is not linearly separable; no single straight line can separate the positive cases `(0,1)` and `(1,0)` from the negative cases `(0,0)` and `(1,1)`. Forward propagation computes a hidden layer activation via `sigmoid(inputs . weights_0)`, then an output via `sigmoid(hidden_layer . weights_1)`. The notebook walks through one full epoch by hand: computing the output error, the output delta (`error * sigmoid_derivative(output)`), backpropagating that delta through `weights_1` to get the hidden layer delta, and using both deltas to update `weights_1` and `weights_0`.
+
+Running the full training loop for 400,000 epochs at a learning rate of 0.6 (with randomly initialised weights) drives the mean absolute error down from about 0.50 at epoch 1 to about 0.0082 by epoch 300,001, over 99% accuracy. The final network correctly reproduces the XOR truth table: predictions round to 0, 1, 1, 0 for inputs `(0,0)`, `(0,1)`, `(1,0)`, `(1,1)`, matching the target outputs exactly.
+
+While running this notebook, I found a bug in the final "Complete Artificial Neural Network" training loop: the line `weights1T = weights1.T` references an undefined variable `weights1` (it should be `weights_1`, matching the variable defined earlier in the notebook). As written, this would raise a `NameError` on the first training iteration; the fix is to rename it to `weights_1.T`, consistent with every other reference to that weight matrix in the notebook.
+
+## Reflection on the learning outcome
+
+These three notebooks form a clear progression that speaks directly to this unit's learning outcome. A single perceptron with a step function can only ever draw one straight decision boundary, which is sufficient for a linearly separable dataset like AND, but structurally incapable of solving a dataset like XOR, no amount of training or weight tuning fixes that, because the limitation is in the model's capacity, not the training procedure. Only once the network gains a hidden layer and a differentiable activation function (sigmoid, which makes backpropagation possible because its derivative is defined everywhere) does the same style of weighted-sum computation become capable of learning a non-linearly-separable dataset.
+
+This is a practical demonstration of why "which dataset" and "which model" cannot be decided independently: choosing a model architecture without first understanding whether the target relationship in the data is linearly separable risks spending enormous compute (400,000 epochs here) chasing an error rate that will never meaningfully improve, or conversely, using an unnecessarily complex model where a simple perceptron would have worked and been far cheaper and more interpretable to train and explain.
