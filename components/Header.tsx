@@ -8,14 +8,28 @@ export default function Header() {
         <Link href="/" className="font-semibold text-zinc-900 dark:text-zinc-50">
           {siteConfig.studentName}
         </Link>
-        <a
-          href={siteConfig.githubRepo}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
-        >
-          GitHub ↗
-        </a>
+        <nav className="flex items-center gap-5 text-sm">
+          <Link
+            href="/evaluation"
+            className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          >
+            Project Evaluation
+          </Link>
+          <Link
+            href="/reflection"
+            className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          >
+            Reflection
+          </Link>
+          <a
+            href={siteConfig.githubRepo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+          >
+            GitHub ↗
+          </a>
+        </nav>
       </div>
     </header>
   );
