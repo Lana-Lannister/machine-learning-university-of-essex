@@ -1,10 +1,10 @@
 ---
 week: 11
-title: "Week 11: Discussion Forum Summary, and Model Performance Measurement"
+title: "Week 11: Discussion Forum Summary, Model Performance Measurement, and Individual Project"
 status: "complete"
-summary: "Two assessments this week: a discussion forum summary post reflecting on AI writer risks, benefits, and governance, and the model performance measurement notebook assessment (AUC and R2)."
-topics: ["Large language models", "AI governance", "Discussion forum", "AUC / ROC", "R2 score", "Regularization", "Overfitting", "Model evaluation", "ML ethics"]
-assessmentCount: 2
+summary: "Three assessments this week: a discussion forum summary post on AI writer risks and governance, the model performance measurement notebook (AUC and R2), and the individual Recommender Systems project comparing a classical SVD-GBDT model against a deep Hybrid NeuMF model on MovieLens 1M."
+topics: ["Large language models", "AI governance", "Discussion forum", "AUC / ROC", "R2 score", "Regularization", "Overfitting", "Model evaluation", "ML ethics", "Recommender systems", "Explainability", "Algorithmic fairness", "Privacy"]
+assessmentCount: 3
 links: [
   { label: "model_performance_measurement.ipynb", href: "https://github.com/Lana-Lannister/machine-learning-university-of-essex/blob/main/coursework/week-11/model_performance_measurement.ipynb", type: "notebook" }
 ]
@@ -135,3 +135,91 @@ A small amount of regularization (`alpha = 0.1`) actually improves test R2 over 
 These experiments make a professional and ethical point concrete: AUC and R2 are not fixed properties of a dataset, they are properties of a specific model, trained with specific parameters, evaluated on a specific split. The same Breast Cancer data produced an AUC of 0.9946 when evaluated on training data, and a more honest 0.97-0.99 range with a proper test split, a difference that could mislead a clinical stakeholder if the methodological detail (same-data evaluation) were omitted from a report. Similarly, the polynomial regression experiment shows a model that looks excellent by one number (train R2 = 0.887) and catastrophic by the number that actually matters for deployment (test R2 = -5.63).
 
 This has direct legal and professional implications. A practitioner who reports only a training-set metric, only a headline AUC without disclosing test set size or regularization choices, or only the metric that makes a model look best, is not lying outright, but is making a choice about what to disclose that can be professionally misleading, particularly in regulated domains like healthcare or finance where a model's reported performance can influence real decisions about patients or customers. Full, honest model evaluation requires disclosing the train/test methodology, the parameters tried, and the metric's sensitivity to small changes in test set size, not just the single best-looking number.
+
+## Assessment 3: Individual Project, Recommender Systems (Track B)
+
+This individual project was submitted directly via the university's assignment portal, not through this repository.
+
+**Title:** Comparative Intelligence and Ethics in Recommender Systems: Classical SVD-GBDT vs Deep Hybrid NeuMF on MovieLens 1M
+
+The brief for Track B asked for a comparison of a classical and a deep learning recommender system, evaluated on more than just accuracy: robustness, explainability, fairness and deployment cost. The scenario framing was a film platform choosing between two models to rank unseen films for its users.
+
+### Dataset and preprocessing
+
+The project used MovieLens 1M (Harper and Konstan, 2015): around one million ratings from 6,040 users across 3,706 films, chosen over the smaller 100K version because it gives small demographic subgroups (such as women over 56) enough data for meaningful confidence intervals, and because it includes gender, age band and occupation, needed for the later bias analysis. Over 95% of the user-film matrix is empty, and the top 20% of films account for roughly two-thirds of all ratings, a popularity imbalance that any model trained on this data inevitably inherits.
+
+Preprocessing was kept minimal and leakage-safe: IDs were encoded, release year and an 18-dimension genre vector were derived, and ZIP code was deliberately dropped, since combined with gender and age it is highly re-identifying (Sweeney, 2000), consistent with the GDPR's data-minimisation principle (European Union, 2016, Art. 5(1)(c)). User and film average-rating features were computed out-of-fold, so a training rating never contributes to its own feature value, preventing gradient-boosted trees from learning from a leak that would otherwise inflate validation scores.
+
+### Models and validation
+
+Two models were compared. **SVD-GBDT** (scikit-learn; Pedregosa et al., 2011) factorises the residual rating matrix with TruncatedSVD to produce a collaborative score, then combines it with shrunken user/film averages, genre affinity and demographics in a histogram gradient-boosted tree ensemble, chosen because tree ensembles remain the strongest classical learners on tabular data (Grinsztajn, Oyallon and Varoquaux, 2022) and support exact SHAP explanations. **Hybrid NeuMF** (He et al., 2017; implemented in PyTorch, Paszke et al., 2019) adapts Neural Collaborative Filtering to explicit ratings, keeping both the GMF dot-product branch and bias terms alongside the MLP tower with side information, a deliberate design choice responding to Rendle et al.'s (2020) finding that a plain dot product often beats NCF's MLP alone, so that any advantage from the deep model reflects genuine value from fusing side information rather than an unfair baseline comparison.
+
+Validation used 5-fold cross-validation with every rating tested exactly once; within each training fold, 10% was held out for tuning and early stopping, keeping the test fold fully untouched by any modelling decision, since tuning on test data biases performance estimates optimistically (Cawley and Talbot, 2010). A noted limitation: the random split allows a model to see some of a user's future behaviour; a temporal split would be needed to confirm the results before any real deployment.
+
+### Results
+
+Both models comfortably beat a popularity-based baseline (RMSE 0.908), but differed from each other by only a few thousandths of a star: RMSE 0.854 for SVD-GBDT versus 0.857 for Hybrid NeuMF, and NDCG@10 of 0.840 versus 0.839. A Wilcoxon signed-rank test over per-user errors found no significant difference (p ~ 0.24), with the classical model ahead for 52% of users and the neural model for 48%, pointing to practical equivalence on accuracy, consistent with Ferrari Dacrema, Cremonesi and Jannach's (2019) finding that many neural recommenders fail to beat well-tuned simpler methods.
+
+Ranking the full catalogue (without negative sampling, following Krichene and Rendle, 2020) revealed a sharper trade-off than the rating-level metrics did: a simple most-popular list achieved the best NDCG@10 (0.168), but covered only 1.4% of the catalogue and recommended no long-tail films at all. Among the learned models, NeuMF had slightly better top-10 accuracy, while SVD-GBDT covered more of the catalogue (10.6% vs 7.6%) and surfaced more long-tail titles, the accuracy-diversity trade-off described by Kaminskas and Bridge (2016).
+
+### Bias, fairness and privacy
+
+Subgroup analysis (using bootstrap confidence intervals resampling users) found the least active fifth of users had an RMSE around 0.90 against 0.83 for the most active, women were served worse than men (0.888 vs 0.843, consistent with Ekstrand et al., 2018), and teenagers had the highest error of any age band. Both models also amplified popularity in their recommendations relative to what users actually rated, an effect nearly doubling for niche users under NeuMF (Abdollahpouri et al., 2019).
+
+A privacy probe found that although the SVD factors never saw gender directly, a simple classifier recovered gender from them with an AUC of 0.70 (versus 0.55 from activity alone), demonstrating that removing a protected attribute from the input does not remove its signal from the learned representation (Weinsberg et al., 2012). This, combined with the re-identification risk of rating histories (Narayanan and Shmatikov, 2008), was framed against the GDPR's lawful-basis and impact-assessment requirements and the EU Digital Services Act's transparency obligations for large platforms (European Union, 2022, Arts 27 and 38).
+
+### Explainability
+
+TreeSHAP gave exact Shapley values for SVD-GBDT, summing to the prediction to fourteen decimal places, with a counter-intuitive dependence pattern: a high user average received a *negative* SHAP value, because the baseline feature already carried the user's generosity and the trees used the average as a correction, a known reading difficulty with correlated features in SHAP (Kumar et al., 2020). Comparing both models in the same seven-field input space showed NeuMF placing roughly double the weight on release decade and genre compared to SVD-GBDT, indicating it leans more on content signals. Captum's Integrated Gradients (Sundararajan, Taly and Yan, 2017) on NeuMF's embeddings agreed with SHAP at rank correlations of 0.86-0.89, cross-validating that the explanations reflected the model rather than an artefact of either method.
+
+### Deployment recommendation
+
+The project recommended deploying SVD-GBDT: equivalent accuracy, roughly half the training time, exact and auditable explanations supporting Digital Services Act transparency duties and the case for inherently interpretable models (Rudin, 2019), better catalogue coverage, and less popularity amplification. Its main weakness, higher per-user scoring latency (~21ms vs ~2ms), was addressed with a two-stage retrieve-then-rerank architecture (Covington, Adams and Sargin, 2016), alongside model cards (Mitchell et al., 2019) and subgroup-aware monitoring of RMSE, NDCG, coverage, popularity lift and data drift (Gama et al., 2014) to catch any regression for a specific group before it reaches users.
+
+### References
+
+Abdollahpouri, H., Mansoury, M., Burke, R. and Mobasher, B. (2019) 'The unfairness of popularity bias in recommendation', *Proceedings of the Workshop on Recommendation in Multi-stakeholder Environments (RMSE 2019)*, CEUR Workshop Proceedings, 2440.
+
+Cawley, G.C. and Talbot, N.L.C. (2010) 'On over-fitting in model selection and subsequent selection bias in performance evaluation', *Journal of Machine Learning Research*, 11, pp. 2079-2107.
+
+Covington, P., Adams, J. and Sargin, E. (2016) 'Deep neural networks for YouTube recommendations', in *Proceedings of the 10th ACM Conference on Recommender Systems (RecSys '16)*. New York: ACM, pp. 191-198.
+
+Ekstrand, M.D., Tian, M., Azpiazu, I.M., Ekstrand, J.D., Anuyah, O., McNeill, D. and Pera, M.S. (2018) 'All the cool kids, how do they fit in?: popularity and demographic biases in recommender evaluation and effectiveness', *Proceedings of the 1st Conference on Fairness, Accountability and Transparency*, PMLR 81, pp. 172-186.
+
+European Union (2016) Regulation (EU) 2016/679 (General Data Protection Regulation), *Official Journal of the European Union*, L 119, pp. 1-88.
+
+European Union (2022) Regulation (EU) 2022/2065 (Digital Services Act), *Official Journal of the European Union*, L 277, pp. 1-102.
+
+Ferrari Dacrema, M., Cremonesi, P. and Jannach, D. (2019) 'Are we really making much progress? A worrying analysis of recent neural recommendation approaches', in *Proceedings of the 13th ACM Conference on Recommender Systems (RecSys '19)*. New York: ACM, pp. 101-109.
+
+Gama, J., Zliobaite, I., Bifet, A., Pechenizkiy, M. and Bouchachia, A. (2014) 'A survey on concept drift adaptation', *ACM Computing Surveys*, 46(4), Article 44.
+
+Grinsztajn, L., Oyallon, E. and Varoquaux, G. (2022) 'Why do tree-based models still outperform deep learning on typical tabular data?', *Advances in Neural Information Processing Systems 35 (Datasets and Benchmarks Track)*.
+
+Harper, F.M. and Konstan, J.A. (2015) 'The MovieLens datasets: history and context', *ACM Transactions on Interactive Intelligent Systems*, 5(4), Article 19.
+
+He, X., Liao, L., Zhang, H., Nie, L., Hu, X. and Chua, T.-S. (2017) 'Neural collaborative filtering', in *Proceedings of the 26th International Conference on World Wide Web (WWW '17)*, pp. 173-182.
+
+Kaminskas, M. and Bridge, D. (2016) 'Diversity, serendipity, novelty, and coverage: a survey and empirical analysis of beyond-accuracy objectives in recommender systems', *ACM Transactions on Interactive Intelligent Systems*, 7(1), Article 2.
+
+Krichene, W. and Rendle, S. (2020) 'On sampled metrics for item recommendation', in *Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (KDD '20)*, pp. 1748-1757.
+
+Kumar, I.E., Venkatasubramanian, S., Scheidegger, C. and Friedler, S.A. (2020) 'Problems with Shapley-value-based explanations as feature importance measures', *Proceedings of the 37th International Conference on Machine Learning*, PMLR 119, pp. 5491-5500.
+
+Mitchell, M., Wu, S., Zaldivar, A., Barnes, P., Vasserman, L., Hutchinson, B., Spitzer, E., Raji, I.D. and Gebru, T. (2019) 'Model cards for model reporting', in *Proceedings of the Conference on Fairness, Accountability, and Transparency (FAT '19)*, pp. 220-229.
+
+Narayanan, A. and Shmatikov, V. (2008) 'Robust de-anonymization of large sparse datasets', *2008 IEEE Symposium on Security and Privacy*, pp. 111-125.
+
+Paszke, A. et al. (2019) 'PyTorch: an imperative style, high-performance deep learning library', *Advances in Neural Information Processing Systems 32*, pp. 8024-8035.
+
+Pedregosa, F. et al. (2011) 'Scikit-learn: machine learning in Python', *Journal of Machine Learning Research*, 12, pp. 2825-2830.
+
+Rendle, S., Krichene, W., Zhang, L. and Anderson, J. (2020) 'Neural collaborative filtering vs. matrix factorization revisited', in *Proceedings of the 14th ACM Conference on Recommender Systems (RecSys '20)*, pp. 240-248.
+
+Rudin, C. (2019) 'Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead', *Nature Machine Intelligence*, 1(5), pp. 206-215.
+
+Sundararajan, M., Taly, A. and Yan, Q. (2017) 'Axiomatic attribution for deep networks', *Proceedings of the 34th International Conference on Machine Learning*, PMLR 70, pp. 3319-3328.
+
+Sweeney, L. (2000) *Simple demographics often identify people uniquely*. Data Privacy Working Paper 3. Pittsburgh: Carnegie Mellon University.
+
+Weinsberg, U., Bhagat, S., Ioannidis, S. and Taft, N. (2012) 'BlurMe: inferring and obfuscating user gender based on ratings', in *Proceedings of the 6th ACM Conference on Recommender Systems (RecSys '12)*, pp. 195-202.

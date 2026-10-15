@@ -1,0 +1,52 @@
+---
+title: "Evaluation: Unit 6 Group Project vs. Unit 11 Individual Project"
+summary: "A comparative evaluation of the two project-based assessments completed during this module: the Group 1 Airbnb marketplace optimisation project (Unit 6) and the individual Recommender Systems project (Unit 11)."
+---
+
+## Overview
+
+Two project-based assessments anchor this module: a **group project** delivered in Unit 6, and an **individual project** delivered in Unit 11. They were not two drafts of the same piece of work, they were two separate deliverables, with different team structures, different datasets, and different technical scope. This page evaluates them side by side: what each project set out to do, how the approach differed, and what moving from one to the other taught me about doing machine learning work, both as part of a team and alone.
+
+## Side-by-side comparison
+
+| | Unit 6: Airbnb Marketplace Optimisation | Unit 11: Recommender Systems (Track B) |
+|---|---|---|
+| **Team** | Group 1 (5 members): Agnieszka de Jonge-Gryciuk, Ali Nahhas, Lana Menezes Fidelis, Nathalie Halimi, Rafaela Pinheiro Gomes Cavalcante | Individual |
+| **Business question** | What distinct Airbnb listing profiles can be identified, and can these profiles improve price prediction? | Which recommender, a classical SVD-GBDT model or a deep Hybrid NeuMF model, should a film platform deploy, once accuracy, robustness, explainability, fairness and cost are all considered? |
+| **Dataset** | NYC Airbnb Open Data (Dgomonov, 2019): 48,895 listings, 16 attributes | MovieLens 1M (Harper and Konstan, 2015): ~1M ratings, 6,040 users, 3,706 films |
+| **Core ML techniques** | K-Means and K-Prototypes clustering; Linear Regression and Random Forest regression; cluster-specific vs global modelling | TruncatedSVD + gradient-boosted trees (SVD-GBDT) vs Neural Collaborative Filtering (Hybrid NeuMF); 5-fold CV with leakage-safe feature engineering; significance testing |
+| **Evaluation depth** | MAE, RMSE, R2; calibrated 80% asking-price ranges instead of point predictions | RMSE, NDCG@10, Wilcoxon signed-rank significance test, subgroup bias via bootstrap CIs, TreeSHAP, Captum Integrated Gradients, a privacy probe |
+| **Explicit ethics/fairness treatment** | Limited: the report focuses on segmentation and pricing, not on fairness or privacy | Central: GDPR data-minimisation, EU Digital Services Act transparency duties, subgroup fairness (gender, age, activity level), and a dedicated privacy audit for attribute leakage |
+| **My contribution** | Modelling: the K-Means/K-Prototypes clustering work and the Linear Regression/Random Forest pricing experiments | Full ownership: dataset selection through deployment recommendation |
+
+## What changed between the two
+
+Read side by side, the two projects show a real shift in how rigorously I was evaluating a model, not just training one. The Airbnb project followed a classical ML workflow (Geron, 2025) and asked "does segmentation improve price prediction?", answering it with standard regression metrics. The Recommender Systems project asked a harder question of itself: even once a model wins on RMSE, is that difference statistically meaningful rather than noise from how the data happened to split (Cawley and Talbot, 2010), who is the model failing quietly, and can its predictions be trusted or explained? Running a Wilcoxon test to check whether a three-thousandths-of-a-star RMSE gap was even real reflects the same scepticism Ferrari Dacrema, Cremonesi and Jannach (2019) bring to the recommender systems literature more broadly: that a more complex model beating a simpler one is a claim that needs testing, not assuming. Specifically testing whether gender could be recovered from supposedly gender-blind model representations, a risk Weinsberg et al. (2012) demonstrate is common once a protected attribute is merely removed from the input rather than actively audited for, is a level of technical scepticism the Airbnb project's workflow did not yet build in. That gap is the clearest evidence of growth across the module: I ended it asking different, harder questions of a model than I did at the start.
+
+## What the group project taught me that working alone did not
+
+The single clearest lesson from Unit 6 was about coordination, not modelling. Airbnb's clustering and regression techniques were not new to me by the time I did the Recommender Systems project solo, but keeping a five-person team moving in the same direction was its own skill, separate from the machine learning itself. Olson and Olson (2000) describe this as the core finding of distributed-work research: physical and temporal distance between collaborators costs more than it looks like it should, because so much of effective teamwork depends on the informal, moment-to-moment coordination that only co-presence makes easy. With the team spread across different schedules and time zones, work had to be handed off asynchronously: a decision made in one time zone had to be documented clearly enough that someone working hours later, without the chance to ask a clarifying question in real time, could pick it up correctly. Cramton (2001) calls the resulting risk the "mutual knowledge problem": dispersed collaborators cannot assume a shared context the way co-located teammates can, and gaps in that shared context get misread as a teammate's carelessness rather than as a structural feature of working apart. That forces a specific discipline that solo work simply does not require: narrating *why* a modelling choice was made, not just what the choice was, because the person reviewing or building on it next was not in the room when the decision happened.
+
+Working on the clustering and regression modelling specifically, I had to keep that handoff discipline in mind constantly: a K-Prototypes run or a regression result I produced had to be reproducible and interpretable by teammates who had not watched me build it, working on their own schedule. O'Leary and Cummings (2007) would describe our team's dispersion as high on both the spatial and temporal dimensions they identify, different locations and limited overlapping working hours, which is exactly the configuration their research associates with the greatest coordination cost, and the greatest need for deliberate documentation practices to offset it. Hinds and Bailey (2003) further note that distributed teams are also more exposed to task and process conflict than co-located ones, since disagreements about how to proceed are harder to resolve through a quick conversation and more likely to calcify into a reviewable, written disagreement. Doing the Recommender Systems project alone removed that constraint entirely, every decision was mine to make and explain only to myself in the moment, which let me move faster on some fronts, but it also removed the pressure that had made my Unit 6 documentation habits better in the first place. The two projects together have left me with a clearer view of the trade-off: individual ownership rewards depth and critical rigor, but team delivery across time zones specifically rewards the discipline of writing decisions down clearly enough for someone else, later, with no shared context, to trust and continue them.
+
+## References
+
+Cawley, G.C. and Talbot, N.L.C. (2010) 'On over-fitting in model selection and subsequent selection bias in performance evaluation', *Journal of Machine Learning Research*, 11, pp. 2079-2107.
+
+Cramton, C.D. (2001) 'The mutual knowledge problem and its consequences for dispersed collaboration', *Organization Science*, 12(3), pp. 346-371. Available at: https://doi.org/10.1287/orsc.12.3.346.10098 (Accessed: 15 October 2026).
+
+Dgomonov (2019) *New York City Airbnb Open Data*. Kaggle. Available at: https://www.kaggle.com/datasets/dgomonov/new-york-city-airbnb-open-data (Accessed: 12 August 2026).
+
+Ferrari Dacrema, M., Cremonesi, P. and Jannach, D. (2019) 'Are we really making much progress? A worrying analysis of recent neural recommendation approaches', in *Proceedings of the 13th ACM Conference on Recommender Systems (RecSys '19)*. New York: ACM, pp. 101-109.
+
+Geron, A. (2025) *Hands-On Machine Learning with Scikit-Learn and PyTorch*. Sebastopol, CA: O'Reilly Media.
+
+Harper, F.M. and Konstan, J.A. (2015) 'The MovieLens datasets: history and context', *ACM Transactions on Interactive Intelligent Systems*, 5(4), Article 19.
+
+Hinds, P.J. and Bailey, D.E. (2003) 'Out of sight, out of sync: understanding conflict in distributed teams', *Organization Science*, 14(6), pp. 615-632. Available at: https://doi.org/10.1287/orsc.14.6.615.24872 (Accessed: 15 October 2026).
+
+Olson, G.M. and Olson, J.S. (2000) 'Distance matters', *Human-Computer Interaction*, 15(2-3), pp. 139-178.
+
+O'Leary, M.B. and Cummings, J.N. (2007) 'The spatial, temporal, and configurational characteristics of geographic dispersion in teams', *MIS Quarterly*, 31(3), pp. 433-452. Available at: https://doi.org/10.2307/25148802 (Accessed: 15 October 2026).
+
+Weinsberg, U., Bhagat, S., Ioannidis, S. and Taft, N. (2012) 'BlurMe: inferring and obfuscating user gender based on ratings', in *Proceedings of the 6th ACM Conference on Recommender Systems (RecSys '12)*, pp. 195-202.

@@ -1,0 +1,30 @@
+---
+title: "Reflection"
+summary: "Final reflective piece for the Machine Learning module: knowledge of the ML algorithms covered, individual contributions to team activities, experience as a member of a development team, and the impact on professional and personal development."
+---
+
+## What: twelve weeks, two projects, one shift in how I evaluate a model
+
+Across this module I moved from running algorithms to questioning them. Early units had me applying individual techniques in isolation: Pearson correlation and three forms of regression on toy and real datasets, Jaccard distance for patient similarity, the perceptron and multi-layer perceptron on linearly and non-linearly separable problems, a CNN on CIFAR-10, and gradient descent's own cost function. Each of these taught me a specific mechanism. By the model evaluation unit, the question had changed from "does this work?" to "how would I know if it didn't?": comparing AUC and R2 under different regularisation strengths and test-set sizes taught me that a single reported metric, without the methodology behind it, is close to meaningless.
+
+That shift became concrete across my two projects. In the Unit 6 group project, Group 1 used K-Means and K-Prototypes to segment Airbnb NYC listings into three host personas, then compared Linear Regression and Random Forest, cluster-specific and global, to see whether segmentation improved price prediction. My own contribution was the modelling: running and validating the clustering, and building the regression experiments that, somewhat counter-intuitively, showed a single global model outperforming cluster-specific ones. We reported that result honestly rather than searching for a configuration that flattered our segmentation hypothesis, which was its own small lesson in resisting the pull toward a tidier conclusion than the data supports.
+
+By Unit 11, working alone on a recommender systems comparison (SVD-GBDT versus Hybrid NeuMF on MovieLens), I built in the scepticism that Unit 6 had not yet required: a Wilcoxon test to check whether a three-thousandths-of-a-star RMSE gap was real, subgroup bias analysis by gender and activity level, and a privacy probe that found gender recoverable from supposedly gender-blind model representations. That I designed those checks into the project unprompted, rather than only computing them because an assessment asked me to, is the clearest evidence of my own learning this module.
+
+## So What: what the two project structures taught me separately
+
+Technically, the biggest change in my thinking came from realising that accuracy alone cannot choose between models. The recommender project's headline RMSE difference between SVD-GBDT and Hybrid NeuMF was not statistically significant, yet the two models differed meaningfully in catalogue coverage, popularity amplification, and subgroup fairness. Treating those as part of model selection, not an afterthought to it, is something I will now do by default rather than by instruction.
+
+The two project structures also taught me different things about myself as a practitioner. Group 1 was distributed across time zones, so work had to be handed off asynchronously: a clustering decision I made had to be documented clearly enough for a teammate working hours later, with no chance to ask a clarifying question, to trust and continue it. Cramton (2001) calls this the mutual knowledge problem, and I felt it directly: a gap in my documentation was not read as a structural consequence of working apart, it read as carelessness, until I adjusted my habits to narrate *why* a modelling choice was made, not only what it was. Working alone on the recommender project removed that constraint entirely. I moved faster and could pursue a much deeper technical rigour, the significance testing and fairness auditing above, precisely because every decision was mine to make and explain only to myself. But I also noticed my documentation discipline slipping without that external pressure, which told me the discipline Unit 6 built in me was a genuine skill, not just a response to being watched.
+
+## Now What: what this changes going into practice
+
+Professionally, I am leaving this module with a working definition of what "finishing" a model means that I did not have at the start: a model is not finished when it trains, it is finished when its accuracy has been tested for statistical significance, its errors have been checked across the subgroups it will actually serve, and its explanations have been cross-validated against a second method rather than trusted from one. I intend to carry the specific habit of auditing for attribute leakage, not just excluding protected fields and assuming the job is done, into any future supervised or recommendation system I build, given how directly the gender-recovery result in Unit 11 undercut that assumption.
+
+On the collaboration side, I am taking forward a concrete practice rather than a vague intention: writing the reasoning behind a decision, not only the decision itself, whenever I know a collaborator will pick up my work without the chance to ask me in real time. That single habit, more than any tool or process, was what separated effective handoffs in Group 1 from ones that caused friction. Combined with the technical scepticism from Unit 11, it has left me with a clearer sense of what I personally bring to a development team: rigour that does not assume a result is correct just because a metric looks good, and documentation that does not assume my own context is obvious to whoever reads it next.
+
+## References
+
+Cramton, C.D. (2001) 'The mutual knowledge problem and its consequences for dispersed collaboration', *Organization Science*, 12(3), pp. 346-371.
+
+Rolfe, G., Freshwater, D. and Jasper, M. (2001) *Critical Reflection in Nursing and the Helping Professions: A User's Guide*. Basingstoke: Palgrave Macmillan.
