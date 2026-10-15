@@ -2,7 +2,7 @@
 
 E-portfolio for the **Machine Learning** module of the **MSc Artificial Intelligence** programme at the **University of Essex**, documenting weekly coursework across 12 weeks for review by the module professor.
 
-Live site: _add the Vercel deployment URL here once deployed_.
+Live site: https://machine-learning-university-of-essex.vercel.app/
 
 ## Tech stack
 
